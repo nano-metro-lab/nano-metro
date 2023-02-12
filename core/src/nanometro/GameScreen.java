@@ -42,8 +42,8 @@ public class GameScreen implements Screen {
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 40, 40);
-		viewport = new ScreenViewport();
-		viewport.setUnitsPerPixel(0.04f);
+		viewport = new ScreenViewport(camera);
+		viewport.setUnitsPerPixel(0.05f);
 		viewport.apply();
 
         game.batch = new SpriteBatch();

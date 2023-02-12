@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
@@ -49,6 +50,7 @@ public class Location {
     List<Passenger> passengerList = new ArrayList<>(30);
     LocationType type;
     Texture locationImage;
+    Sprite locationSprite;
 
     public void addPassenger(Passenger p) {
         this.passengerList.add(p);
@@ -94,6 +96,8 @@ public class Location {
         ///
 
         locationImage = new Texture(Gdx.files.internal(imgs.get(this.type)));
+        locationSprite = new Sprite(locationImage);
+        locationSprite.setSize(100f, 100f);
 //        locationImage.
 
     }
@@ -111,8 +115,11 @@ public class Location {
         Vector3 v = new Vector3(this.position.x, this.position.y, 0);
         camera.project(v);
 //        batch.setProjectionMatrix(camera.combined);
-        batch.draw(locationImage, v.x - 50f, v.y  - 50f, 100f, 100f);
+//        batch.draw(locationImage, v.x - 50f, v.y  - 50f, 100f, 100f);
+        locationSprite.setPosition(v.x - 50f, v.y  - 50f);
+        locationSprite.draw(batch);
         batch.end();
+
     }
 
     public void destroy() {world.destroyBody(this.locationBody);
