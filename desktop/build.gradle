@@ -1,8 +1,8 @@
-sourceCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_17
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["../assets"]
 
-project.ext.mainClassName = "org.nanometro.DesktopLauncher"
+project.ext.mainClassName = "nanometro.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../assets")
 
 import org.gradle.internal.os.OperatingSystem
