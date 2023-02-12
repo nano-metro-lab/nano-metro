@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -42,11 +41,14 @@ public class GameScreen implements Screen {
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 40, 40);
-		viewport = new ScreenViewport();
-		viewport.setUnitsPerPixel(0.04f);
+		viewport = new ScreenViewport(camera);
+		viewport.setUnitsPerPixel(0.05f);
 		viewport.apply();
 
         game.batch = new SpriteBatch();
+        game.debugBatch = new SpriteBatch();
+
+
         game.shape = new ShapeRenderer();
         game.shape.setProjectionMatrix(camera.combined);
         InputProcessor input1 = new _Input_1();
@@ -140,10 +142,10 @@ public class GameScreen implements Screen {
         for (Train train : trainList) {
 //			Gdx.gl.glLineWidth(5);
             train.run();
-            train.draw(game.batch);
+            train.debugDraw(game.debugBatch);
         }
         for (Location l : locationList) {
-            l.drawDebug(game.batch);
+            l.drawDebug(game.debugBatch);
             l.draw(game.batch);
         }
 
