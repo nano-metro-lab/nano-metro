@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 public class NanoMetro extends Game {
     SpriteBatch batch;
+    SpriteBatch debugBatch;
     ShapeRenderer shape;
     Box2DDebugRenderer debugRenderer;
 
@@ -15,6 +16,7 @@ public class NanoMetro extends Game {
         batch = new SpriteBatch();
         shape = new ShapeRenderer();
 
+        debugBatch = new SpriteBatch();
         debugRenderer = new Box2DDebugRenderer();
 
         this.setScreen(new GameScreen(this));

@@ -76,13 +76,11 @@ public class Train {
 //        this.trainBody.
     }
 
-    public void draw(SpriteBatch batch) {
-        batch.begin();
-
+    public void debugDraw(SpriteBatch batch) {
         Vector3 p = new Vector3(this.trainBody.getWorldCenter().x, this.trainBody.getWorldCenter().y, 0);
         camera.project(p);
+        batch.begin();
         debugFont.draw(batch, passengerList.toString(), p.x,p.y);
-
         batch.end();
     }
 
