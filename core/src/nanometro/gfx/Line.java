@@ -87,6 +87,9 @@ public class Line {
         stationList.add(s);
         sectionList.add(new Section(this, f, s));
 //        modelService.updateLine(this, getLocationList());
+        this.headTip = new Tip(this, this.stationList.get(0));
+        this.tailTip = new Tip(this, this.stationList.get(this.stationList.size() - 1));
+
     }
 
     public void removeTail() {

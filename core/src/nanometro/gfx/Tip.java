@@ -16,10 +16,21 @@ public class Tip {
     Line line;
     Body tipBody;
     Vector2 position;
+    Sensor sensor;
 
     public Tip(Line l, Station s) {
         this.line = l;
-        this.position = s.getPosition();
+        this.position = new Vector2(s.platform.x - 3, s.platform.y - 3);
+
+        BodyDef tipBodyDef = new BodyDef();
+        tipBodyDef.type = BodyDef.BodyType.StaticBody;
+        CircleShape tipShape = new CircleShape();
+        tipShape.setRadius(1f);
+        this.tipBody = world.createBody(tipBodyDef);
+        this.tipBody.createFixture(tipShape, 0.0f);
+        this.tipBody.setTransform(position.x, position.y, 0);
+        this.tipBody.setUserData(this);
+        tipShape.dispose();
 
     }
 
@@ -31,11 +42,12 @@ public class Tip {
         shape.setProjectionMatrix(camera.combined);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(Color.valueOf(this.line.colour));
-        shape.circle(this.position.x - 1, this.position.y - 1, 2);
+        shape.circle(this.position.x, this.position.y,  1, 20);
         shape.end();
     }
 
     public void destroy() {
+        world.destroyBody(this.tipBody);
 
     }
 }
