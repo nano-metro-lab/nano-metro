@@ -82,6 +82,7 @@ public class GameScreen implements Screen {
         line1.addTail(l5);
         lineList.add(line1);
         trainList.add(new Train(line1, line1.sectionList.get(0), 0f));
+        trainList.add(new Train(line1, line1.sectionList.get(3), 0.3f));
 
         Line line2 = new Line(l4, l2);
         line2.addTail(l6);

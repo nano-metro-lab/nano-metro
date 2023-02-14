@@ -12,10 +12,10 @@ import static nanometro.GameScreen.modelService;
 public class Tip {
 
     Line line;
-    Location head, tail;
-    Body headBody, tailBody;
+    Body tipBody;
 
     public Tip(Line l) {
+        this.line = l;
 //        BodyDef sensorBodyDef = new BodyDef();
 //        sensorBodyDef.type = BodyDef.BodyType.StaticBody;
 //        CircleShape sensorShape = new CircleShape();

@@ -9,11 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 
-import static nanometro.GameScreen.camera;
-import static nanometro.GameScreen.world;
-import static nanometro.GameScreen.modelService;
-
 import java.util.*;
+
+import static nanometro.GameScreen.*;
 
 
 public class Train {
@@ -77,7 +75,8 @@ public class Train {
 
     public void debugDraw(SpriteBatch batch) {
         Vector3 p = new Vector3(this.trainBody.getWorldCenter().x, this.trainBody.getWorldCenter().y, 0);
-        camera.project(p);
+//        camera.project(p);
+        viewport.project(p);
         batch.begin();
         debugFont.draw(batch, passengerList.toString(), p.x,p.y);
         batch.end();
