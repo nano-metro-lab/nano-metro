@@ -105,7 +105,7 @@ public class Line {
     }
     public void addHead(Location l) {
         Station s = new Station(this, l);
-        Station f = stationList.get(stationList.size() - 1);
+        Station f = stationList.get(0);
         stationList.add(0, s);
         sectionList.add(0, new Section(this, s, f));
         this._update();

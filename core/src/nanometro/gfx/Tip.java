@@ -17,10 +17,12 @@ public class Tip {
     Body tipBody;
     Vector2 position;
     Sensor sensor;
+    Station station;
 
     public Tip(Line l, Station s) {
         this.line = l;
         this.position = new Vector2(s.platform.x - 3, s.platform.y - 3);
+        this.station = s;
 
         BodyDef tipBodyDef = new BodyDef();
         tipBodyDef.type = BodyDef.BodyType.StaticBody;

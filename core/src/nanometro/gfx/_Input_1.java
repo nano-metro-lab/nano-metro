@@ -62,7 +62,7 @@ public class _Input_1 implements InputProcessor {
         for (Fixture f : fixtureList) {
             if (f.getBody().getUserData() instanceof Tip) {
                 Tip t = (Tip) f.getBody().getUserData();
-                if (t.position == t.line.stationList.get(0).platform) {
+                if (t.station == t.line.stationList.get(0)) {
                     // head tip
                     head = t;
                     break;
@@ -105,18 +105,17 @@ public class _Input_1 implements InputProcessor {
                     tail.line.addTail(endLocation);
                     clear();
                     break;
+                } else {
+                    for (Line l : GameScreen.lineList) {
+                        if (l.hasSection(this.startSection)) {
+                            l.addMiddle(this.endLocation, this.startSection);
+                        }
+                    }
+                    break;
                 }
 
-                for (Line l : GameScreen.lineList) {
-                    if (l.hasSection(this.startSection)) {
-                        l.addMiddle(this.endLocation, this.startSection);
-                    }
-                }
-                break;
             }
         }
-//        System.out.println(this.startSection);
-//        System.out.println(this.endLocation);
         return true;
     }
 
