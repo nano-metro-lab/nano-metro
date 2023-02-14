@@ -13,8 +13,7 @@ import static nanometro.GameScreen.camera;
 import static nanometro.GameScreen.world;
 import static nanometro.GameScreen.modelService;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 public class Train {
@@ -105,13 +104,29 @@ public class Train {
         }
         removeLst.removeAll(removeLst);
 
+        Map<Location.LocationType, Location> nextHopsByType = new HashMap<>();
+        Random random = new Random();
+
         for (Passenger p : thisLocation.passengerList) {
-            List<Location> lst =  modelService.findDestinations(p.getType(), thisLocation, nextLocation);
-//            System.out.println(lst);
-            if (!lst.isEmpty()) {
+            if (nextHopsByType.containsKey(p.getType())) {
+              Location nextHop = nextHopsByType.get(p.getType());
+              if (nextHop != null) {
                 this.passengerList.add(p);
                 removeLst.add(p);
-                p.nextHop = lst.get(lst.size() - 1);
+                p.nextHop = nextHop;
+              }
+            } else {
+              List<Location> lst =  modelService.findDestinations(p.getType(), thisLocation, nextLocation);
+//            System.out.println(lst);
+              if (!lst.isEmpty()) {
+                this.passengerList.add(p);
+                removeLst.add(p);
+                Location nextHop = lst.get(random.nextInt(lst.size()));
+                p.nextHop = nextHop;
+                nextHopsByType.put(p.getType(), nextHop);
+              } else {
+                nextHopsByType.put(p.getType(), null);
+              }
             }
         }
         for (Passenger p : removeLst) {
