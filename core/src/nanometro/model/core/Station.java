@@ -43,11 +43,13 @@ public class Station {
     }
 
     Stream<Route> get(LocationType destinationType) {
-      return Station.this.lines.stream()
+      List<Route> routes = Station.this.lines.stream()
         .filter(Predicate.not(Line::isFindingRoutes))
         .map(RoutesMap.this::getLineRoutesMap)
         .map(LineRoutesMap.getting(destinationType))
-        .flatMap(Collection::stream);
+        .flatMap(Collection::stream)
+        .toList();
+      return Route.getBest(routes);
     }
 
     void clear() {
