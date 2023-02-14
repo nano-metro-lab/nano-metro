@@ -56,6 +56,11 @@ public class Section {
         }
     }
 
+    public void drawTip() {
+
+
+    }
+
 //    public void update() {
 //        this.generateSamples();
 //        this.generateSensors();

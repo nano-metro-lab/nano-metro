@@ -12,6 +12,7 @@ public class Station {
     Line line;
 
 
+
     public Vector2 getPosition() {
         return this.location.getPosition();
     }
@@ -30,6 +31,10 @@ public class Station {
         setStation(location.getPosition());
         this.location = location;
         this.line = line;
+    }
+
+    public void draw() {
+        // Todo anything to draw?
     }
 
 

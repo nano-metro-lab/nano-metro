@@ -1,5 +1,7 @@
 package nanometro.gfx;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,20 +15,27 @@ public class Tip {
 
     Line line;
     Body tipBody;
+    Vector2 position;
 
-    public Tip(Line l) {
+    public Tip(Line l, Station s) {
         this.line = l;
-//        BodyDef sensorBodyDef = new BodyDef();
-//        sensorBodyDef.type = BodyDef.BodyType.StaticBody;
-//        CircleShape sensorShape = new CircleShape();
-//        sensorShape.setRadius(0.5f);
-//        this.sensorBody = Main.world.createBody(sensorBodyDef);
-//        this.sensorBody.createFixture(sensorShape, 0.0f);
-//        this.sensorBody.setTransform(v.x, v.y, 0);
-//        this.sensorBody.setUserData(this);
-//        sensorShape.dispose();
-//        this.sensorPosition = v;
-//        this.section = s;
-//        headBody =
+        this.position = s.getPosition();
+
+    }
+
+    public void update(Station s) {
+
+    }
+
+    public void draw(ShapeRenderer shape) {
+        shape.setProjectionMatrix(camera.combined);
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        shape.setColor(Color.valueOf(this.line.colour));
+        shape.circle(this.position.x - 1, this.position.y - 1, 2);
+        shape.end();
+    }
+
+    public void destroy() {
+
     }
 }
