@@ -7,21 +7,10 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 public class Line {
-  private static final List<Comparator<Route>> routeComparators = List.of(
-    Comparator.comparingInt(Route::transfer),
-    Comparator.comparingInt(Route::length)
-  );
-
   private final Map<Station, StationNode> nodeMap = new HashMap<>();
   private boolean isFindingRoutes;
 
   public Line() {
-  }
-
-  private static Stream<Route> getBestRoutes(Collection<Route> routes) {
-    return routeComparators.stream()
-      .flatMap((routeComparator) -> Route.getBest(routes, routeComparator))
-      .distinct();
   }
 
   public void update(List<Station> stations) {
@@ -72,7 +61,7 @@ public class Line {
       findRoutes(destinationType, station, StationNode::getRight)
     );
     isFindingRoutes = false;
-    return getBestRoutes(routeStream.toList());
+    return Route.getBest(routeStream.toList());
   }
 
   private Stream<Route> findRoutes(LocationType destinationType, Station station, UnaryOperator<StationNode> successor) {
@@ -101,7 +90,7 @@ public class Line {
           });
       }
     }
-    return getBestRoutes(routes);
+    return Route.getBest(routes);
   }
 
   private static class StationNode {
