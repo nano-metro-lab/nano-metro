@@ -24,6 +24,10 @@ public class _Input_1 implements InputProcessor {
     private Section startSection = null;
     private Location endLocation = null;
 
+    private Tip head = null;
+    private Tip tail = null;
+
+
     public _Input_1() {
 
     }
@@ -56,7 +60,17 @@ public class _Input_1 implements InputProcessor {
             }
         }, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y);
         for (Fixture f : fixtureList) {
-            if (f.getBody().getUserData() instanceof Sensor) {
+            if (f.getBody().getUserData() instanceof Tip) {
+                Tip t = (Tip) f.getBody().getUserData();
+                if (t.station == t.line.stationList.get(0)) {
+                    // head tip
+                    head = t;
+                    break;
+                } else {
+                    tail = t;
+                    break;
+                }
+            } else if (f.getBody().getUserData() instanceof Sensor) {
                 Sensor o = (Sensor) f.getBody().getUserData();
                 this.startSection = o.section;
                 break;
@@ -82,17 +96,32 @@ public class _Input_1 implements InputProcessor {
             if (f.getBody().getUserData() instanceof Location) {
                 Location o = (Location) f.getBody().getUserData();
                 this.endLocation = o;
-                for (Line l : GameScreen.lineList) {
-                    if (l.hasSection(this.startSection)) {
-                        l.addMiddle(this.endLocation, this.startSection);
+
+                if (head != null) {
+                    head.line.addHead(endLocation);
+                    clear();
+                    break;
+                } else if (tail != null) {
+                    tail.line.addTail(endLocation);
+                    clear();
+                    break;
+                } else {
+                    for (Line l : GameScreen.lineList) {
+                        if (l.hasSection(this.startSection)) {
+                            l.addMiddle(this.endLocation, this.startSection);
+                        }
                     }
+                    break;
                 }
-                break;
+
             }
         }
-//        System.out.println(this.startSection);
-//        System.out.println(this.endLocation);
         return true;
+    }
+
+    private void clear() {
+        this.head = null;
+        this.tail = null;
     }
 
     public boolean touchDragged (int x, int y, int pointer) {

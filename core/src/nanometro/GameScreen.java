@@ -54,8 +54,8 @@ public class GameScreen implements Screen {
         InputProcessor input1 = new _Input_1();
         InputProcessor input2 = new _Input_2();
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-//		inputMultiplexer.addProcessor(input1);
-        inputMultiplexer.addProcessor(input2);
+		inputMultiplexer.addProcessor(input1);
+//        inputMultiplexer.addProcessor(input2);
         Gdx.input.setInputProcessor(inputMultiplexer);
         setup();
     }
@@ -82,6 +82,7 @@ public class GameScreen implements Screen {
         line1.addTail(l5);
         lineList.add(line1);
         trainList.add(new Train(line1, line1.sectionList.get(0), 0f));
+        trainList.add(new Train(line1, line1.sectionList.get(3), 0.3f));
 
         Line line2 = new Line(l4, l2);
         line2.addTail(l6);

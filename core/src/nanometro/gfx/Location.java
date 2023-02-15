@@ -74,7 +74,7 @@ public class Location {
         this.locationBody.setUserData(this);
         this.locationBody.setTransform(position.x, position.y, 0);
 
-        Vector2 platformOffset = new Vector2(0f, 0.6f);
+        Vector2 platformOffset = new Vector2(0.6f, 0.6f);
         this.platformPool.add(this.position);
         this.platformPool.add(this.position.cpy().add(platformOffset));
         this.platformPool.add(this.position.cpy().add(platformOffset).add(platformOffset));

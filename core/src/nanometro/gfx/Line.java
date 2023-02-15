@@ -13,6 +13,7 @@ import static nanometro.GameScreen.modelService;
 public class Line {
     public final List<Station> stationList;
     public final List<Section> sectionList;
+    public Tip headTip, tailTip;
     public String colour;
 
 
@@ -32,6 +33,9 @@ public class Line {
         this.stationList.add(new Station(this, b));
         this.sectionList.add(new Section(this, this.stationList.get(0), this.stationList.get(1)));
         this.colour = "#fcce05";
+        //
+        this.headTip = new Tip(this, this.stationList.get(0));
+        this.tailTip = new Tip(this, this.stationList.get(1));
     }
 
     public Section getNextSection(Section s) {
@@ -47,6 +51,12 @@ public class Line {
         } else {
             return sectionList.get(sectionList.indexOf(s) - 1);
         }
+    }
+
+    private void _update() {
+        this.headTip = new Tip(this, this.stationList.get(0));
+        this.tailTip = new Tip(this, this.stationList.get(this.stationList.size() - 1));
+        modelService.updateLine(this, getLocationList());
     }
 
     public Section getSection(Location locationA, Location locationB) {
@@ -67,6 +77,8 @@ public class Line {
                 s.draw(shape);
         }
 //        Gdx.gl.glDisable(GL20.GL_BLEND);
+        this.tailTip.draw(shape);
+        this.headTip.draw(shape);
     }
 
     public void addTail(Location l) {
@@ -74,6 +86,10 @@ public class Line {
         Station f = stationList.get(stationList.size() - 1);
         stationList.add(s);
         sectionList.add(new Section(this, f, s));
+//        modelService.updateLine(this, getLocationList());
+        this.headTip = new Tip(this, this.stationList.get(0));
+        this.tailTip = new Tip(this, this.stationList.get(this.stationList.size() - 1));
+
     }
 
     public void removeTail() {
@@ -85,16 +101,14 @@ public class Line {
             sectionList.get(sectionList.size() - 1).destroy();
             sectionList.remove(sectionList.size() - 1);
         }
-
-        modelService.updateLine(this, getLocationList());
+        this._update();
     }
     public void addHead(Location l) {
         Station s = new Station(this, l);
-        Station f = stationList.get(stationList.size() - 1);
+        Station f = stationList.get(0);
         stationList.add(0, s);
         sectionList.add(0, new Section(this, s, f));
-
-        modelService.updateLine(this, getLocationList());
+        this._update();
     }
 
     public void removeHead() {
@@ -106,8 +120,7 @@ public class Line {
             sectionList.get(0).destroy();
             sectionList.remove(0);
         }
-
-        modelService.updateLine(this, getLocationList());
+        this._update();
     }
 
     public void addMiddle(Location l, Section s) {
@@ -119,8 +132,7 @@ public class Line {
         sectionList.add(sectionList.indexOf(s), new Section(this, middle, bLower));
         sectionList.remove(s);
         s.destroy();
-
-        modelService.updateLine(this, getLocationList());
+        this._update();
     }
 
     public void removeMiddle(Location l) {
@@ -148,8 +160,7 @@ public class Line {
         sectionList.remove(b);
         a.destroy();
         b.destroy();
-
-        modelService.updateLine(this, getLocationList());
+        this._update();
     }
 
 
