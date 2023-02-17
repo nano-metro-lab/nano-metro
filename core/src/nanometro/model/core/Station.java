@@ -3,7 +3,6 @@ package nanometro.model.core;
 import nanometro.model.shared.LocationType;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -45,15 +44,15 @@ public class Station {
     Stream<Route> get(LocationType destinationType) {
       List<Route> routes = Station.this.lines.stream()
         .filter(Predicate.not(Line::isFindingRoutes))
-        .map(this::getLineRoutesMap)
-        .map(LineRoutesMap.getting(destinationType))
+        .map(line -> getLineRoutes(destinationType, line))
         .flatMap(Collection::stream)
         .toList();
       return Route.getBest(routes);
     }
 
-    void clear() {
-      map.clear();
+    private List<Route> getLineRoutes(LocationType destinationType, Line line) {
+      LineRoutesMap lineRoutesMap = getLineRoutesMap(line);
+      return lineRoutesMap.get(destinationType);
     }
 
     private LineRoutesMap getLineRoutesMap(Line line) {
@@ -65,16 +64,16 @@ public class Station {
         });
     }
 
+    void clear() {
+      map.clear();
+    }
+
     private class LineRoutesMap {
       private final Line line;
       private final Map<LocationType, List<Route>> map = new HashMap<>();
 
       LineRoutesMap(Line line) {
         this.line = line;
-      }
-
-      static Function<LineRoutesMap, List<Route>> getting(LocationType destinationType) {
-        return (lineRoutesMap) -> lineRoutesMap.get(destinationType);
       }
 
       List<Route> get(LocationType destinationType) {
