@@ -44,13 +44,12 @@ public class Station {
     Stream<Route> get(LocationType destinationType) {
       List<Route> routes = Station.this.lines.stream()
         .filter(Predicate.not(Line::isFindingRoutes))
-        .map(line -> getLineRoutes(destinationType, line))
-        .flatMap(Collection::stream)
+        .flatMap(line -> getLineRoutes(destinationType, line))
         .toList();
       return Route.getBest(routes);
     }
 
-    private List<Route> getLineRoutes(LocationType destinationType, Line line) {
+    private Stream<Route> getLineRoutes(LocationType destinationType, Line line) {
       LineRoutesMap lineRoutesMap = getLineRoutesMap(line);
       return lineRoutesMap.get(destinationType);
     }
@@ -76,12 +75,13 @@ public class Station {
         this.line = line;
       }
 
-      List<Route> get(LocationType destinationType) {
+      Stream<Route> get(LocationType destinationType) {
         return Optional.ofNullable(map.get(destinationType))
+          .map(Collection::stream)
           .orElseGet(() -> {
             List<Route> routes = line.findRoutes(destinationType, Station.this).toList();
             map.put(destinationType, routes);
-            return routes;
+            return routes.stream();
           });
       }
     }
