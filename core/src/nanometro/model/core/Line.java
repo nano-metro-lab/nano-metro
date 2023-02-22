@@ -13,7 +13,7 @@ public class Line {
   public Line() {
   }
 
-  public void update(List<Station> stations) {
+  public void update(Collection<Station> stations) {
     if (stations.isEmpty()) {
       for (Station station : nodeMap.keySet()) {
         station.removeLine(this);
@@ -23,12 +23,10 @@ public class Line {
     }
     if (!nodeMap.isEmpty()) {
       Set<Station> staleStations = new HashSet<>(nodeMap.keySet());
-      for (Station station : stations) {
-        staleStations.remove(station);
-      }
-      for (Station station : staleStations) {
-        nodeMap.remove(station);
-        station.removeLine(this);
+      stations.forEach(staleStations::remove);
+      for (Station staleStation : staleStations) {
+        nodeMap.remove(staleStation);
+        staleStation.removeLine(this);
       }
     }
     StationNode sentinel = new StationNode(null);
