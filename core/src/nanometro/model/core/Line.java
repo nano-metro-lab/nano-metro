@@ -21,6 +21,9 @@ public class Line {
       nodeMap.clear();
       return;
     }
+    if (stations.stream().distinct().count() != (long) stations.size()) {
+      throw new RuntimeException("circle line is not supported");
+    }
     if (!nodeMap.isEmpty()) {
       Set<Station> staleStations = new HashSet<>(nodeMap.keySet());
       stations.forEach(staleStations::remove);
