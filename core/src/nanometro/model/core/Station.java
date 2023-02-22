@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public class Station {
   private final LocationType type;
-  private final List<Line> lines = new ArrayList<>();
+  private final Set<Line> lines = new HashSet<>();
   private final RoutesMap routesMap = new RoutesMap();
 
   public Station(LocationType type) {
@@ -20,11 +20,15 @@ public class Station {
   }
 
   public void addLine(Line line) {
-    lines.add(line);
+    if (!lines.add(line)) {
+      throw new RuntimeException("station " + this + " is already on line " + line);
+    }
   }
 
   public void removeLine(Line line) {
-    lines.remove(line);
+    if (!lines.remove(line)) {
+      throw new RuntimeException("station " + this + " is not on line " + line);
+    }
   }
 
   public Stream<Route> getRoutes(LocationType destinationType) {

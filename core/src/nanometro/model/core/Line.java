@@ -66,7 +66,7 @@ public class Line {
 
   private Stream<Route> findRoutes(LocationType destinationType, Station station, UnaryOperator<StationNode> successor) {
     StationNode routeStartNode = Optional.ofNullable(nodeMap.get(station))
-      .orElseThrow(() -> new RuntimeException("station " + station + " is not on this line"));
+      .orElseThrow(() -> new RuntimeException("station " + station + " is not on line " + this));
     StationNode routeNextNode = successor.apply(routeStartNode);
     if (routeNextNode == null) {
       return Stream.empty();
