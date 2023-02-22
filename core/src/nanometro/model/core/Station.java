@@ -7,9 +7,9 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Station {
-  private final LocationType type;
   private final Set<Line> lines = new HashSet<>();
   private final RoutesMap routesMap = new RoutesMap();
+  private final LocationType type;
 
   public Station(LocationType type) {
     this.type = type;
