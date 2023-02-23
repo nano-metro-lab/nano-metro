@@ -119,6 +119,7 @@ public class GameScreen implements Screen {
 
             @Override
             public void run() {
+                Timer.schedule(this, random.nextFloat(4));
                 Location location = getRandomLocation();
                 Location.LocationType passengerType;
                 do {
@@ -141,7 +142,7 @@ public class GameScreen implements Screen {
                 } while (locationType == Location.LocationType.PREVIEW);
                 return locationType;
             }
-        }, 2, 2);
+        }, 2);
     }
 
 
