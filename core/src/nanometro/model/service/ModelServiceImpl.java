@@ -19,8 +19,8 @@ public class ModelServiceImpl<StationId, LineId> implements ModelService<Station
     Station station = stationDao.get(stationId);
     Station nextStation = stationDao.get(nextStationId);
     return station.getRoutes(destinationType)
-      .filter(Route.equalingTo(nextStation, Route::next))
-      .map(Route::last)
+      .filter(Route.equalingTo(nextStation, Route::nextStation))
+      .map(Route::lastStation)
       .map(stationDao::getId)
       .toList();
   }
