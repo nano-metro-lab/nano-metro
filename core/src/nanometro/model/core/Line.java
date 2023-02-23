@@ -13,22 +13,23 @@ public class Line {
   public Line() {
   }
 
-  public void update(List<Station> stations) {
+  public void update(Collection<Station> stations) {
     if (stations.isEmpty()) {
       for (Station station : nodeMap.keySet()) {
-        station.removeLine(Line.this);
+        station.removeLine(this);
       }
       nodeMap.clear();
       return;
     }
+    if (stations.stream().distinct().count() != (long) stations.size()) {
+      throw new RuntimeException("circle line is not supported");
+    }
     if (!nodeMap.isEmpty()) {
       Set<Station> staleStations = new HashSet<>(nodeMap.keySet());
-      for (Station station : stations) {
-        staleStations.remove(station);
-      }
-      for (Station station : staleStations) {
-        nodeMap.remove(station);
-        station.removeLine(Line.this);
+      stations.forEach(staleStations::remove);
+      for (Station staleStation : staleStations) {
+        nodeMap.remove(staleStation);
+        staleStation.removeLine(this);
       }
     }
     StationNode sentinel = new StationNode(null);
@@ -38,7 +39,7 @@ public class Line {
         .orElseGet(() -> {
           StationNode newNode = new StationNode(station);
           nodeMap.put(station, newNode);
-          station.addLine(Line.this);
+          station.addLine(this);
           return newNode;
         });
       node.left = lastNode;
@@ -66,7 +67,7 @@ public class Line {
 
   private Stream<Route> findRoutes(LocationType destinationType, Station station, UnaryOperator<StationNode> successor) {
     StationNode routeStartNode = Optional.ofNullable(nodeMap.get(station))
-      .orElseThrow(() -> new RuntimeException("station " + station + " is not on this line"));
+      .orElseThrow(() -> new RuntimeException("station " + station + " is not on line " + this));
     StationNode routeNextNode = successor.apply(routeStartNode);
     if (routeNextNode == null) {
       return Stream.empty();

@@ -3,14 +3,13 @@ package nanometro.model.core;
 import nanometro.model.shared.LocationType;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Station {
-  private final LocationType type;
-  private final List<Line> lines = new ArrayList<>();
+  private final Set<Line> lines = new HashSet<>();
   private final RoutesMap routesMap = new RoutesMap();
+  private final LocationType type;
 
   public Station(LocationType type) {
     this.type = type;
@@ -21,11 +20,15 @@ public class Station {
   }
 
   public void addLine(Line line) {
-    lines.add(line);
+    if (!lines.add(line)) {
+      throw new RuntimeException("station " + this + " is already on line " + line);
+    }
   }
 
   public void removeLine(Line line) {
-    lines.remove(line);
+    if (!lines.remove(line)) {
+      throw new RuntimeException("station " + this + " is not on line " + line);
+    }
   }
 
   public Stream<Route> getRoutes(LocationType destinationType) {
@@ -45,15 +48,14 @@ public class Station {
     Stream<Route> get(LocationType destinationType) {
       List<Route> routes = Station.this.lines.stream()
         .filter(Predicate.not(Line::isFindingRoutes))
-        .map(RoutesMap.this::getLineRoutesMap)
-        .map(LineRoutesMap.getting(destinationType))
-        .flatMap(Collection::stream)
+        .flatMap(line -> getLineRoutes(destinationType, line))
         .toList();
       return Route.getBest(routes);
     }
 
-    void clear() {
-      map.clear();
+    private Stream<Route> getLineRoutes(LocationType destinationType, Line line) {
+      LineRoutesMap lineRoutesMap = getLineRoutesMap(line);
+      return lineRoutesMap.get(destinationType);
     }
 
     private LineRoutesMap getLineRoutesMap(Line line) {
@@ -65,6 +67,10 @@ public class Station {
         });
     }
 
+    void clear() {
+      map.clear();
+    }
+
     private class LineRoutesMap {
       private final Line line;
       private final Map<LocationType, List<Route>> map = new HashMap<>();
@@ -73,16 +79,13 @@ public class Station {
         this.line = line;
       }
 
-      static Function<LineRoutesMap, List<Route>> getting(LocationType destinationType) {
-        return (lineRoutesMap) -> lineRoutesMap.get(destinationType);
-      }
-
-      List<Route> get(LocationType destinationType) {
+      Stream<Route> get(LocationType destinationType) {
         return Optional.ofNullable(map.get(destinationType))
+          .map(Collection::stream)
           .orElseGet(() -> {
             List<Route> routes = line.findRoutes(destinationType, Station.this).toList();
             map.put(destinationType, routes);
-            return routes;
+            return routes.stream();
           });
       }
     }
