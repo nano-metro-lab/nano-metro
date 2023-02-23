@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import nanometro.gfx.*;
 import nanometro.model.ModelServiceFactory;
@@ -18,6 +19,7 @@ import nanometro.model.service.ModelService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GameScreen implements Screen {
     final NanoMetro game;
@@ -84,7 +86,8 @@ public class GameScreen implements Screen {
         trainList.add(new Train(line1, line1.sectionList.get(0), 0f));
         trainList.add(new Train(line1, line1.sectionList.get(3), 0.3f));
 
-        Line line2 = new Line(l4, l2);
+        Line line2 = new Line(l4, l3);
+        line2.addTail(l2);
         line2.addTail(l6);
         line2.addTail(l7);
         line2.colour = "#1c4094";
@@ -111,10 +114,35 @@ public class GameScreen implements Screen {
         modelService.addLine(line3);
         modelService.updateLine(line3, line3.getLocationList());
 
-        l1.addPassenger(new Passenger(Location.LocationType.SQUARE));
-        l1.addPassenger(new Passenger(Location.LocationType.CIRCLE));
-        l1.addPassenger(new Passenger(Location.LocationType.TRIANGLE));
+        Timer.schedule(new Timer.Task() {
+            private final Random random = new Random();
 
+            @Override
+            public void run() {
+                Timer.schedule(this, random.nextFloat(4));
+                Location location = getRandomLocation();
+                Location.LocationType passengerType;
+                do {
+                    passengerType = getRandomLocationType();
+                } while (passengerType == location.getType());
+                location.addPassenger(new Passenger(passengerType));
+            }
+
+            private Location getRandomLocation() {
+                int locationIndex = random.nextInt(locationList.size());
+                return locationList.get(locationIndex);
+            }
+
+            private Location.LocationType getRandomLocationType() {
+                Location.LocationType[] locationTypes = Location.LocationType.values();
+                Location.LocationType locationType;
+                do {
+                    int locationTypeIndex = random.nextInt(locationTypes.length);
+                    locationType = locationTypes[locationTypeIndex];
+                } while (locationType == Location.LocationType.PREVIEW);
+                return locationType;
+            }
+        }, 2);
     }
 
 
