@@ -32,7 +32,7 @@ class DaoImpl<Id, Entity> implements Dao<Id, Entity> {
 
   @Override
   public Stream<Entity> getAll(Collection<Id> ids) {
-    return ids.stream().map(DaoImpl.this::get);
+    return ids.stream().map(this::get);
   }
 
   @Override

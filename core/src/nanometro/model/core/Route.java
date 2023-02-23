@@ -8,8 +8,9 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public record Route(
-  Station next,
-  Station last,
+  Line startLine,
+  Station nextStation,
+  Station lastStation,
   int length,
   int transfer
 ) {

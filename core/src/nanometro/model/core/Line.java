@@ -73,12 +73,13 @@ public class Line {
       return Stream.empty();
     }
     List<Route> routes = new ArrayList<>();
+    Line startLine = this;
     StationNodeIterator nodeIterator = new StationNodeIterator(routeNextNode, successor);
     while (nodeIterator.hasNext()) {
       int nodeIndex = nodeIterator.nextIndex();
       StationNode node = nodeIterator.next();
       if (node.station.getType().equals(destinationType)) {
-        Route route = new Route(routeNextNode.station, node.station, nodeIndex + 1, 0);
+        Route route = new Route(startLine, routeNextNode.station, node.station, nodeIndex + 1, 0);
         routes.add(route);
         break;
       } else {
@@ -86,7 +87,7 @@ public class Line {
           .forEach((transferRoute) -> {
             int length = transferRoute.length() + nodeIndex + 1;
             int transfer = transferRoute.transfer() + 1;
-            Route route = new Route(routeNextNode.station, node.station, length, transfer);
+            Route route = new Route(startLine, routeNextNode.station, node.station, length, transfer);
             routes.add(route);
           });
       }

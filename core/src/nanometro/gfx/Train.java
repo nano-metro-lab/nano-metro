@@ -115,7 +115,7 @@ public class Train {
                 p.nextHop = nextHop;
               }
             } else {
-              List<Location> lst =  modelService.findDestinations(p.getType(), thisLocation, nextLocation);
+              List<Location> lst =  modelService.findDestinations(p.getType(), line, thisLocation, nextLocation);
 //            System.out.println(lst);
               if (!lst.isEmpty()) {
                 this.passengerList.add(p);

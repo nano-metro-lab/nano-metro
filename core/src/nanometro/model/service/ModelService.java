@@ -5,7 +5,7 @@ import nanometro.model.shared.LocationType;
 import java.util.List;
 
 public interface ModelService<StationId, LineId> {
-  List<StationId> findDestinations(LocationType destinationType, StationId stationId, StationId nextStationId);
+  List<StationId> findDestinations(LocationType destinationType, LineId lindId, StationId stationId, StationId nextStationId);
 
   void addStation(StationId id, LocationType type);
 

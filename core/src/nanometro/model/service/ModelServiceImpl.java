@@ -15,12 +15,14 @@ public class ModelServiceImpl<StationId, LineId> implements ModelService<Station
   }
 
   @Override
-  public List<StationId> findDestinations(LocationType destinationType, StationId stationId, StationId nextStationId) {
+  public List<StationId> findDestinations(LocationType destinationType, LineId lineId, StationId stationId, StationId nextStationId) {
+    Line line = lineDao.get(lineId);
     Station station = stationDao.get(stationId);
     Station nextStation = stationDao.get(nextStationId);
     return station.getRoutes(destinationType)
-      .filter(Route.equalingTo(nextStation, Route::next))
-      .map(Route::last)
+      .filter(Route.equalingTo(line, Route::startLine))
+      .filter(Route.equalingTo(nextStation, Route::nextStation))
+      .map(Route::lastStation)
       .map(stationDao::getId)
       .toList();
   }
