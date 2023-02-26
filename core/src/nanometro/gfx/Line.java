@@ -2,14 +2,11 @@ package nanometro.gfx;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import static nanometro.GameScreen.camera;
-import static nanometro.GameScreen.world;
 import static nanometro.GameScreen.modelService;
 
 public class Line {
@@ -104,7 +101,7 @@ public class Line {
         sectionPreviewList.add(new SectionPreview(this, f, v));
     }
 
-    public void removePreviewTail() {
+    public void removeLastPreview() {
         if (sectionPreviewList.size() > 0) {
             sectionPreviewList.remove(sectionPreviewList.size() - 1);
         }
@@ -113,6 +110,14 @@ public class Line {
     public void addPreviewHead(Vector2 v) {
         Vector2 f = stationList.get(0).getPlatform();
         sectionPreviewList.add(new SectionPreview(this, v, f));
+    }
+
+    public void addPreviewMiddle(Vector2 v, Section s) {
+        Vector2 a = s.upper.getPlatform();
+        Vector2 c = s.lower.getPlatform();
+        Vector2 b = v;
+        this.sectionPreviewList.add(new SectionPreview(this, a, b));
+        this.sectionPreviewList.add(new SectionPreview(this, b, c));
     }
 
     public void removeTail() {

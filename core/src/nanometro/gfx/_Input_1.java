@@ -10,11 +10,9 @@ import nanometro.GameScreen;
 
 import static nanometro.GameScreen.camera;
 import static nanometro.GameScreen.world;
-import static nanometro.GameScreen.modelService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class _Input_1 implements InputProcessor {
 
@@ -23,7 +21,7 @@ public class _Input_1 implements InputProcessor {
         this.mouseBox = mouseBox;
     }
 
-    private Section startSection = null;
+    private Section selectedSection = null;
     private Location endLocation = null;
 
     private Tip head = null;
@@ -81,7 +79,8 @@ public class _Input_1 implements InputProcessor {
                 }
             } else if (f.getBody().getUserData() instanceof Sensor) {
                 Sensor o = (Sensor) f.getBody().getUserData();
-                this.startSection = o.section;
+                this.selectedLine = o.section.line;
+                this.selectedSection = o.section;
                 this.isAddingMiddle = true;
                 break;
             }
@@ -117,8 +116,8 @@ public class _Input_1 implements InputProcessor {
                     break;
                 } else {
                     for (Line l : GameScreen.lineList) {
-                        if (l.hasSection(this.startSection)) {
-                            l.addMiddle(this.endLocation, this.startSection);
+                        if (l.hasSection(this.selectedSection)) {
+                            l.addMiddle(this.endLocation, this.selectedSection);
                         }
                     }
                     break;
@@ -130,7 +129,7 @@ public class _Input_1 implements InputProcessor {
         // clear all previews
         if (this.selectedLine != null) {
             while (!this.selectedLine.sectionPreviewList.isEmpty()) {
-                this.selectedLine.removePreviewTail();
+                this.selectedLine.removeLastPreview();
             }
         }
         this.selectedLine = null;
@@ -146,10 +145,13 @@ public class _Input_1 implements InputProcessor {
         if (this.selectedLine != null)  {
             // clean up
             Line l = this.selectedLine;
-            l.removePreviewTail();
+            if (this.isAddingHead || this.isAddingTail) {
+                l.removeLastPreview();
+            } else if (this.isAddingMiddle) {
+                l.removeLastPreview();
+                l.removeLastPreview();
+            }
         }
-        System.out.println(x);
-        System.out.println(y);
         Vector3 mousePosition = new Vector3(x, y, 0);
         camera.unproject(mousePosition);
 
@@ -157,6 +159,9 @@ public class _Input_1 implements InputProcessor {
             this.selectedLine.addPreviewTail(new Vector2(mousePosition.x, mousePosition.y));
         } else if (this.isAddingHead) {
             this.selectedLine.addPreviewHead(new Vector2(mousePosition.x, mousePosition.y));
+        } else if (this.isAddingMiddle) {
+            System.out.println(this.selectedSection);
+            this.selectedLine.addPreviewMiddle(new Vector2(mousePosition.x, mousePosition.y), this.selectedSection);
         }
         return true;
 
