@@ -1,10 +1,12 @@
 package nanometro.gfx;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import static nanometro.GameScreen.camera;
 import static nanometro.GameScreen.world;
@@ -13,6 +15,7 @@ import static nanometro.GameScreen.modelService;
 public class Line {
     public final List<Station> stationList;
     public final List<Section> sectionList;
+    public final List<SectionPreview> sectionPreviewList;
     public Tip headTip, tailTip;
     public String colour;
 
@@ -28,6 +31,7 @@ public class Line {
 
     public Line(Location a, Location b) {
         this.sectionList = new ArrayList<Section>(20);
+        this.sectionPreviewList = new ArrayList<SectionPreview>(1);
         this.stationList = new ArrayList<Station>(21);
         this.stationList.add(new Station(this, a));
         this.stationList.add(new Station(this, b));
@@ -74,7 +78,10 @@ public class Line {
 //        Gdx.gl.glLineWidth(25);
 //        if (stationList.size() < 2) return;
         for (Section s : this.sectionList) {
-                s.draw(shape);
+            s.draw(shape);
+        }
+        for (SectionPreview s : this.sectionPreviewList) {
+            s.draw(shape);
         }
 //        Gdx.gl.glDisable(GL20.GL_BLEND);
         this.tailTip.draw(shape);
@@ -90,6 +97,22 @@ public class Line {
         this.headTip = new Tip(this, this.stationList.get(0));
         this.tailTip = new Tip(this, this.stationList.get(this.stationList.size() - 1));
 
+    }
+
+    public void addPreviewTail(Vector2 v) {
+        Vector2 f = stationList.get(stationList.size() - 1).getPlatform();
+        sectionPreviewList.add(new SectionPreview(this, f, v));
+    }
+
+    public void removePreviewTail() {
+        if (sectionPreviewList.size() > 0) {
+            sectionPreviewList.remove(sectionPreviewList.size() - 1);
+        }
+    }
+
+    public void addPreviewHead(Vector2 v) {
+        Vector2 f = stationList.get(0).getPlatform();
+        sectionPreviewList.add(new SectionPreview(this, v, f));
     }
 
     public void removeTail() {

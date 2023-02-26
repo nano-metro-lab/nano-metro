@@ -1,6 +1,7 @@
 package nanometro.gfx;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -13,6 +14,7 @@ import static nanometro.GameScreen.modelService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class _Input_1 implements InputProcessor {
 
@@ -27,6 +29,10 @@ public class _Input_1 implements InputProcessor {
     private Tip head = null;
     private Tip tail = null;
 
+    private boolean isAddingTail = false;
+    private boolean isAddingMiddle = false;
+    private boolean isAddingHead = false;
+    private Line selectedLine = null;
 
     public _Input_1() {
 
@@ -62,17 +68,21 @@ public class _Input_1 implements InputProcessor {
         for (Fixture f : fixtureList) {
             if (f.getBody().getUserData() instanceof Tip) {
                 Tip t = (Tip) f.getBody().getUserData();
+                this.selectedLine = t.line;
                 if (t.station == t.line.stationList.get(0)) {
                     // head tip
+                    this.isAddingHead = true;
                     head = t;
                     break;
                 } else {
+                    this.isAddingTail = true;
                     tail = t;
                     break;
                 }
             } else if (f.getBody().getUserData() instanceof Sensor) {
                 Sensor o = (Sensor) f.getBody().getUserData();
                 this.startSection = o.section;
+                this.isAddingMiddle = true;
                 break;
             }
         }
@@ -116,6 +126,14 @@ public class _Input_1 implements InputProcessor {
 
             }
         }
+        this.isAddingTail = this.isAddingMiddle = this.isAddingHead = false;
+        // clear all previews
+        if (this.selectedLine != null) {
+            while (!this.selectedLine.sectionPreviewList.isEmpty()) {
+                this.selectedLine.removePreviewTail();
+            }
+        }
+        this.selectedLine = null;
         return true;
     }
 
@@ -125,29 +143,23 @@ public class _Input_1 implements InputProcessor {
     }
 
     public boolean touchDragged (int x, int y, int pointer) {
-//        Vector3 mousePosition = new Vector3(x, y, 0);
-//        Main.camera.unproject(mousePosition);
-//
-//        final List<Fixture> fixtureList = new ArrayList<>(10);
-//        Main.world.QueryAABB(new QueryCallback() {
-//            @Override
-//            public boolean reportFixture(Fixture fixture) {
-//                fixtureList.add(fixture);
-//                return true;
-//            }
-//        }, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y);
-//
-//        for (Fixture f : fixtureList) {
-//            if (f.getBody().getUserData() instanceof Sensor) {
-//                Sensor o = (Sensor) f.getBody().getUserData();
-//                System.out.println(o.getSensorPosition());
-//                break;
-//            }
-//        }
-//
-//        System.out.println("end");
-        return false;
-//        return false;
+        if (this.selectedLine != null)  {
+            // clean up
+            Line l = this.selectedLine;
+            l.removePreviewTail();
+        }
+        System.out.println(x);
+        System.out.println(y);
+        Vector3 mousePosition = new Vector3(x, y, 0);
+        camera.unproject(mousePosition);
+
+        if (this.isAddingTail) {
+            this.selectedLine.addPreviewTail(new Vector2(mousePosition.x, mousePosition.y));
+        } else if (this.isAddingHead) {
+            this.selectedLine.addPreviewHead(new Vector2(mousePosition.x, mousePosition.y));
+        }
+        return true;
+
     }
 
     public boolean mouseMoved (int x, int y) {
