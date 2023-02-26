@@ -25,15 +25,14 @@ public class Line {
         return l;
     }
 
-
-    public Line(Location a, Location b) {
+    public Line(Location a, Location b, String colour) {
+        this.colour = colour;
         this.sectionList = new ArrayList<Section>(20);
         this.sectionPreviewList = new ArrayList<SectionPreview>(1);
         this.stationList = new ArrayList<Station>(21);
         this.stationList.add(new Station(this, a));
         this.stationList.add(new Station(this, b));
         this.sectionList.add(new Section(this, this.stationList.get(0), this.stationList.get(1)));
-        this.colour = "#fcce05";
         //
         this.headTip = new Tip(this, this.stationList.get(0));
         this.tailTip = new Tip(this, this.stationList.get(1));
@@ -116,6 +115,7 @@ public class Line {
         Vector2 a = s.upper.getPlatform();
         Vector2 c = s.lower.getPlatform();
         Vector2 b = v;
+        s.fade();
         this.sectionPreviewList.add(new SectionPreview(this, a, b));
         this.sectionPreviewList.add(new SectionPreview(this, b, c));
     }

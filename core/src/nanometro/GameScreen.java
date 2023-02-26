@@ -78,7 +78,7 @@ public class GameScreen implements Screen {
 
         locationList = List.of(l1, l2, l3, l4, l5, l6, l7, l8);
 
-        Line line1 = new Line(l1, l2);
+        Line line1 = new Line(l1, l2, "#fcce05");
         line1.addTail(l3);
         line1.addTail(l4);
         line1.addTail(l5);
@@ -86,17 +86,15 @@ public class GameScreen implements Screen {
         trainList.add(new Train(line1, line1.sectionList.get(0), 0f));
         trainList.add(new Train(line1, line1.sectionList.get(3), 0.3f));
 
-        Line line2 = new Line(l4, l3);
+        Line line2 = new Line(l4, l3, "#1c4094");
         line2.addTail(l2);
         line2.addTail(l6);
         line2.addTail(l7);
-        line2.colour = "#1c4094";
         lineList.add(line2);
         trainList.add(new Train(line2, line2.sectionList.get(0), 0f));
 
-        Line line3 = new Line(l3, l8);
+        Line line3 = new Line(l3, l8, "#f03024");
         lineList.add(line3);
-        line3.colour = "#f03024";
         trainList.add(new Train(line3, line3.sectionList.get(0), 0f));
         testLine = line1;
 

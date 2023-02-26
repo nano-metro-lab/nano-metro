@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Section {
+    String colour;
     Line line;
     Station upper;
     Station lower;
@@ -25,6 +26,8 @@ public class Section {
         this.line = line;
         this.upper = upper;
         this.lower = lower;
+        System.out.println(this.line.colour);
+        this.colour = this.line.colour == null ? "#ffffff" : this.line.colour;
         this.path = new Boxy(upper, lower);
         generateSamples();
         generateSensors();
@@ -44,12 +47,20 @@ public class Section {
         }
     }
 
+    public void fade() {
+        this.colour = "#9f9f9f";
+    }
+
+    public void unfade() {
+        this.colour = this.line.colour;
+    }
+
     public void draw(ShapeRenderer shape) {
         int k = this.sampleList.size();
         for (int i = 0; i < k - 1; i++) {
             shape.setProjectionMatrix(camera.combined);
             shape.begin(ShapeRenderer.ShapeType.Filled);
-            shape.setColor(Color.valueOf(this.line.colour));
+            shape.setColor(Color.valueOf(this.colour));
             shape.rectLine(sampleList.get(i) , sampleList.get(i + 1), 0.7f);
 //            shape.line(sampleList.get(i) , sampleList.get(i + 1));
             shape.end();

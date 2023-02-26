@@ -133,6 +133,11 @@ public class _Input_1 implements InputProcessor {
             }
         }
         this.selectedLine = null;
+        // recover section colour
+        if (this.selectedSection != null) {
+            this.selectedSection.unfade();
+            this.selectedSection = null;
+        }
         return true;
     }
 
