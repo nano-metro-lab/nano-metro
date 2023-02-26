@@ -165,7 +165,7 @@ public class _Input_1 implements InputProcessor {
         } else if (this.isAddingHead) {
             this.selectedLine.addPreviewHead(new Vector2(mousePosition.x, mousePosition.y));
         } else if (this.isAddingMiddle) {
-            System.out.println(this.selectedSection);
+//            System.out.println(this.selectedSection);
             this.selectedLine.addPreviewMiddle(new Vector2(mousePosition.x, mousePosition.y), this.selectedSection);
         }
         return true;

@@ -26,7 +26,6 @@ public class Section {
         this.line = line;
         this.upper = upper;
         this.lower = lower;
-        System.out.println(this.line.colour);
         this.colour = this.line.colour == null ? "#ffffff" : this.line.colour;
         this.path = new Boxy(upper, lower);
         generateSamples();
