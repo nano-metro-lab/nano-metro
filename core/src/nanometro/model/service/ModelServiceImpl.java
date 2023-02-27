@@ -46,6 +46,11 @@ public class ModelServiceImpl<StationId, LineId> implements ModelService<Station
   }
 
   @Override
+  public void resetLine(LineId lineId) {
+    updateLine(lineId, List.of());
+  }
+
+  @Override
   public void reset() {
     stationDao.deleteAll();
     lineDao.deleteAll();
