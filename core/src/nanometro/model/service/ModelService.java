@@ -13,5 +13,7 @@ public interface ModelService<StationId, LineId> {
 
   void updateLine(LineId id, List<StationId> stationIds);
 
+  void resetLine(LineId id);
+
   void reset();
 }
