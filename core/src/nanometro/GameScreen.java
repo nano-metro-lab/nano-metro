@@ -77,8 +77,13 @@ public class GameScreen implements Screen {
         Location l8 = new Location(38, 35, Location.LocationType.TRIANGLE);
 
         locationList = List.of(l1, l2, l3, l4, l5, l6, l7, l8);
+        // Model part
+        for (Location l : locationList) {
+            modelService.addStation(l, l.getType());
+        }
 
         Line line1 = new Line(l1, l2, "#fcce05");
+        modelService.addLine(line1);
         line1.addTail(l3);
         line1.addTail(l4);
         line1.addTail(l5);
@@ -87,6 +92,7 @@ public class GameScreen implements Screen {
         trainList.add(new Train(line1, line1.sectionList.get(3), 0.3f));
 
         Line line2 = new Line(l4, l3, "#1c4094");
+        modelService.addLine(line2);
         line2.addTail(l2);
         line2.addTail(l6);
         line2.addTail(l7);
@@ -94,23 +100,17 @@ public class GameScreen implements Screen {
         trainList.add(new Train(line2, line2.sectionList.get(0), 0f));
 
         Line line3 = new Line(l3, l8, "#f03024");
+        modelService.addLine(line3);
         lineList.add(line3);
         trainList.add(new Train(line3, line3.sectionList.get(0), 0f));
         testLine = line1;
 
-        // Model part
-        for (Location l : locationList) {
-            modelService.addStation(l, l.getType());
-        }
 
-        modelService.addLine(line1);
-        modelService.updateLine(line1, line1.getLocationList());
+//        modelService.updateLine(line1, line1.getLocationList());
 
-        modelService.addLine(line2);
-        modelService.updateLine(line2, line2.getLocationList());
+//        modelService.updateLine(line2, line2.getLocationList());
 
-        modelService.addLine(line3);
-        modelService.updateLine(line3, line3.getLocationList());
+//        modelService.updateLine(line3, line3.getLocationList());
 
         Timer.schedule(new Timer.Task() {
             private final Random random = new Random();
