@@ -30,6 +30,8 @@ public class Train {
     BitmapFont debugFont;
     Location thisLocation;
     Location nextLocation;
+    // Used for gfx rotate degree
+    Vector2 nextPosition, currentPosition;
 
     public void stopTrain() {
         stopSignal = 1;
@@ -196,6 +198,7 @@ public class Train {
             runTime += Gdx.graphics.getDeltaTime();
             progress = runTime / sectionTimeLimit;
             Vector2 bodyPosition = trainBody.getWorldCenter();
+            this.currentPosition = bodyPosition;
             Vector2 targetPosition = new Vector2();
             if (this.direction == Direction.DOWN) {
                 section.path.valueAt(targetPosition, progress);
@@ -204,6 +207,7 @@ public class Train {
 //                System.out.println(1 - progress);
 
             }
+            this.nextPosition = targetPosition;
             Vector2 positionDelta = (targetPosition.cpy().sub(bodyPosition));
             this.trainBody.setLinearVelocity(positionDelta.scl(10));
 

@@ -12,7 +12,8 @@ import static nanometro.GameScreen.world;
 import static nanometro.GameScreen.modelService;
 
 public class Tip {
-
+    float radius = 1f;
+    float offset = 3f;
     Line line;
     Body tipBody;
     Vector2 position;
@@ -21,13 +22,13 @@ public class Tip {
 
     public Tip(Line l, Station s) {
         this.line = l;
-        this.position = new Vector2(s.platform.x - 3, s.platform.y - 3);
+        this.position = new Vector2(s.platform.x - offset, s.platform.y - offset);
         this.station = s;
 
         BodyDef tipBodyDef = new BodyDef();
         tipBodyDef.type = BodyDef.BodyType.StaticBody;
         CircleShape tipShape = new CircleShape();
-        tipShape.setRadius(1f);
+        tipShape.setRadius(radius);
         this.tipBody = world.createBody(tipBodyDef);
         this.tipBody.createFixture(tipShape, 0.0f);
         this.tipBody.setTransform(position.x, position.y, 0);
@@ -44,7 +45,7 @@ public class Tip {
         shape.setProjectionMatrix(camera.combined);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(Color.valueOf(this.line.colour));
-        shape.circle(this.position.x, this.position.y,  1, 20);
+        shape.circle(this.position.x, this.position.y,  radius, 20);
         shape.end();
     }
 

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Random;
 
 public class GameScreen implements Screen {
-    boolean DEBUG = true;
+    boolean DEBUG = false;
     final NanoMetro game;
 
     public static OrthographicCamera camera;
