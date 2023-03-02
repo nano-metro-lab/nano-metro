@@ -31,6 +31,7 @@ public class _Input_1 implements InputProcessor {
     private boolean isAddingMiddle = false;
     private boolean isAddingHead = false;
     private Line selectedLine = null;
+    private SectionPreview tmpSectionPreview = null;
 
     public _Input_1() {
 
@@ -83,6 +84,10 @@ public class _Input_1 implements InputProcessor {
                 this.selectedSection = o.section;
                 this.isAddingMiddle = true;
                 break;
+            } else if (f.getBody().getUserData() instanceof Location){
+                Location o = (Location) f.getBody().getUserData();
+
+
             }
         }
         return true;

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Random;
 
 public class GameScreen implements Screen {
+    boolean DEBUG = true;
     final NanoMetro game;
 
     public static OrthographicCamera camera;
@@ -153,7 +154,7 @@ public class GameScreen implements Screen {
         for (Line line : lineList) {
             line.draw(game.shape);
         }
-//		game.debugRenderer.render(world, camera.combined);
+        if (DEBUG) game.debugRenderer.render(world, camera.combined);
         for (Train train : trainList) {
 //			Gdx.gl.glLineWidth(5);
             train.run();
