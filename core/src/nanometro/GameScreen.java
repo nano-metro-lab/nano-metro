@@ -142,6 +142,7 @@ public class GameScreen implements Screen {
 //			Gdx.gl.glLineWidth(5);
             train.run();
             train.debugDraw(game.debugBatch);
+            train.draw(game.shape);
         }
         for (Location l : locationList) {
             l.drawDebug(game.debugBatch);

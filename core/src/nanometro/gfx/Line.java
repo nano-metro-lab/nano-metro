@@ -30,7 +30,7 @@ public class Line {
 
     public Line(Location a, Location b) {
         this.colourObj = Colour.requestColour();
-        this.colour = this.colourObj.subColour3;
+        this.colour = this.colourObj.subColour1;
         this.sectionList = new ArrayList<Section>(20);
         this.sectionPreviewList = new ArrayList<SectionPreview>(1);
         this.stationList = new ArrayList<Station>(21);
