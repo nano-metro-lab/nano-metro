@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
@@ -30,6 +31,11 @@ public class Train {
     BitmapFont debugFont;
     Location thisLocation;
     Location nextLocation;
+    // Used for gfx rotate degree
+    Vector2 nextPosition, currentPosition;
+    // Train shape control
+    float trainShapeWidth = 2.9f;
+    float trainShapeHeight = 1.7f;
 
     public void stopTrain() {
         stopSignal = 1;
@@ -80,6 +86,23 @@ public class Train {
         batch.begin();
         debugFont.draw(batch, passengerList.toString(), p.x,p.y);
         batch.end();
+    }
+
+    public void draw(ShapeRenderer shape) {
+        shape.setProjectionMatrix(camera.combined);
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        shape.setColor(Color.valueOf(this.line.colourObj.subColour3));
+        double degree = Math.atan2(
+                nextPosition.y - currentPosition.y,
+                nextPosition.x - currentPosition.x
+        ) * 180.0d / Math.PI;
+        // https://stackoverflow.com/questions/18333314/libgdx-degree-between-two-points-calculation
+        shape.rect(this.currentPosition.x - 0.5f * trainShapeWidth,
+                this.currentPosition.y - 0.5f * trainShapeHeight,
+                0.5f * trainShapeWidth, 0.5f * trainShapeHeight,
+                trainShapeWidth, trainShapeHeight,
+                1, 1, (float)degree);
+        shape.end();
     }
 
     public void set() {
@@ -196,6 +219,7 @@ public class Train {
             runTime += Gdx.graphics.getDeltaTime();
             progress = runTime / sectionTimeLimit;
             Vector2 bodyPosition = trainBody.getWorldCenter();
+            this.currentPosition = bodyPosition;
             Vector2 targetPosition = new Vector2();
             if (this.direction == Direction.DOWN) {
                 section.path.valueAt(targetPosition, progress);
@@ -204,6 +228,7 @@ public class Train {
 //                System.out.println(1 - progress);
 
             }
+            this.nextPosition = targetPosition;
             Vector2 positionDelta = (targetPosition.cpy().sub(bodyPosition));
             this.trainBody.setLinearVelocity(positionDelta.scl(10));
 

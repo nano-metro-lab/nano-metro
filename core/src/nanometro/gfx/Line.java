@@ -17,6 +17,7 @@ public class Line {
     public Tip headTip, tailTip;
     public String colour;
     public Colour colourObj;
+    private static List<Line> lineList = GameScreen.lineList;
 
 
     public List<Location> getLocationList() {
@@ -29,7 +30,7 @@ public class Line {
 
     public Line(Location a, Location b) {
         this.colourObj = Colour.requestColour();
-        this.colour = this.colourObj.subColour3;
+        this.colour = this.colourObj.subColour1;
         this.sectionList = new ArrayList<Section>(20);
         this.sectionPreviewList = new ArrayList<SectionPreview>(1);
         this.stationList = new ArrayList<Station>(21);
@@ -44,6 +45,7 @@ public class Line {
         // create train
         GameScreen.trainList.add(new Train(this, this.sectionList.get(0), 0.5f));
         this._update();
+        lineList.add(this);
     }
 
     public Section getNextSection(Section s) {
@@ -212,8 +214,8 @@ public class Line {
             s.destroy();
         }
         sectionList.removeAll(sectionList);
-
         modelService.updateLine(this, getLocationList());
+        lineList.remove(this);
     }
 
     public boolean hasSection(Section s) {

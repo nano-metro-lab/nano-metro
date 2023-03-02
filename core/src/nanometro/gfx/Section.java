@@ -46,9 +46,7 @@ public class Section {
         }
     }
 
-    public void fade() {
-        this.colour = "#9f9f9f";
-    }
+    public void fade() { this.colour = this.line.colourObj.subColour2; }
 
     public void unfade() {
         this.colour = this.line.colour;
