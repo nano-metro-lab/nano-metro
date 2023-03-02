@@ -38,6 +38,9 @@ public class GameScreen implements Screen {
     private Section testSection;
     private Line testLine;
 
+    private _Input_1 input1;
+    private _Input_2 input2;
+
 
     public GameScreen(NanoMetro game) {
         this.game = game;
@@ -53,8 +56,8 @@ public class GameScreen implements Screen {
 
         game.shape = new ShapeRenderer();
         game.shape.setProjectionMatrix(camera.combined);
-        InputProcessor input1 = new _Input_1();
-        InputProcessor input2 = new _Input_2();
+        input1 = new _Input_1();
+//        input2 = new _Input_2();
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(input1);
 //        inputMultiplexer.addProcessor(input2);
@@ -67,6 +70,7 @@ public class GameScreen implements Screen {
         Colour c1 = new Colour("#fcce05");
         Colour c2 = new Colour("#1c4094");
         Colour c3 = new Colour("#f03024");
+        Colour c4 = new Colour("#e0e0e0");
         colourList = List.of(c1, c2, c3);
 
         // locations set up
@@ -164,6 +168,7 @@ public class GameScreen implements Screen {
             l.drawDebug(game.debugBatch);
             l.draw(game.batch);
         }
+        input1.draw(game.shape);
 
         world.step(1/60f, 6, 2);
 //		System.out.println(testLine);

@@ -1,6 +1,8 @@
 package nanometro.gfx;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -8,11 +10,11 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import nanometro.GameScreen;
 
-import static nanometro.GameScreen.camera;
-import static nanometro.GameScreen.world;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+
+import static nanometro.GameScreen.*;
 
 public class _Input_1 implements InputProcessor {
 
@@ -31,7 +33,14 @@ public class _Input_1 implements InputProcessor {
     private boolean isAddingMiddle = false;
     private boolean isAddingHead = false;
     private Line selectedLine = null;
-    private SectionPreview tmpSectionPreview = null;
+
+    // case creating new line
+    private boolean isAddingNewLine = false;
+    private SectionPreview NLSectionPreview;
+    private Colour NLColour;
+    private Location NLStart;
+    private Vector2 NLStartPlatform;
+    private Location NLEnd;
 
     public _Input_1() {
 
@@ -85,9 +94,12 @@ public class _Input_1 implements InputProcessor {
                 this.isAddingMiddle = true;
                 break;
             } else if (f.getBody().getUserData() instanceof Location){
+                this.isAddingNewLine = true;
+                System.out.println(1111);
                 Location o = (Location) f.getBody().getUserData();
-
-
+                NLStart = o;
+                NLStartPlatform = o.requestPlatform();
+                NLColour = Colour.requestColour();
             }
         }
         return true;
@@ -107,23 +119,32 @@ public class _Input_1 implements InputProcessor {
         for (Fixture f : fixtureList) {
             if (f.getBody().getUserData() instanceof Location) {
                 Location o = (Location) f.getBody().getUserData();
-                this.endLocation = o;
+                if (this.isAddingNewLine) {
+//                    this.NLStart.releasePlatform(); Todo
+                    Colour.releaseColour(NLColour);
+                    this.NLEnd = o;
+                    lineList.add(new Line(NLStart, NLEnd));
+                    this.isAddingNewLine = false;
 
-                if (head != null) {
-                    head.line.addHead(endLocation);
-                    clear();
-                    break;
-                } else if (tail != null) {
-                    tail.line.addTail(endLocation);
-                    clear();
-                    break;
-                } else {
-                    for (Line l : GameScreen.lineList) {
-                        if (l.hasSection(this.selectedSection)) {
-                            l.addMiddle(this.endLocation, this.selectedSection);
+                } else if (this.isAddingTail || this.isAddingHead) {
+                    this.endLocation = o;
+
+                    if (head != null) {
+                        head.line.addHead(endLocation);
+                        clear();
+                        break;
+                    } else if (tail != null) {
+                        tail.line.addTail(endLocation);
+                        clear();
+                        break;
+                    } else {
+                        for (Line l : GameScreen.lineList) {
+                            if (l.hasSection(this.selectedSection)) {
+                                l.addMiddle(this.endLocation, this.selectedSection);
+                            }
                         }
+                        break;
                     }
-                    break;
                 }
 
             }
@@ -168,11 +189,18 @@ public class _Input_1 implements InputProcessor {
         } else if (this.isAddingHead) {
             this.selectedLine.addPreviewHead(new Vector2(mousePosition.x, mousePosition.y));
         } else if (this.isAddingMiddle) {
-//            System.out.println(this.selectedSection);
             this.selectedLine.addPreviewMiddle(new Vector2(mousePosition.x, mousePosition.y), this.selectedSection);
+        } else if (this.isAddingNewLine) {
+            this.NLSectionPreview = new SectionPreview(NLStartPlatform, new Vector2(mousePosition.x, mousePosition.y), NLColour);
         }
         return true;
 
+    }
+
+    public void draw(ShapeRenderer shape) {
+        if (this.isAddingNewLine && this.NLSectionPreview != null) {
+            NLSectionPreview.draw(shape);
+        }
     }
 
     public boolean mouseMoved (int x, int y) {

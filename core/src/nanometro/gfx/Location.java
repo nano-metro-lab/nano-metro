@@ -78,6 +78,7 @@ public class Location {
         this.platformPool.add(this.position);
         this.platformPool.add(this.position.cpy().add(platformOffset));
         this.platformPool.add(this.position.cpy().add(platformOffset).add(platformOffset));
+        this.platformPool.add(this.position.cpy().add(platformOffset).add(platformOffset).add(platformOffset));
 
 
         // debug font
