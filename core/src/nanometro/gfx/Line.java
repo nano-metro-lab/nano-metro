@@ -54,6 +54,8 @@ public class Line {
     }
 
     private void _update() {
+        this.headTip.destroy();
+        this.tailTip.destroy();
         this.headTip = new Tip(this, this.stationList.get(0));
         this.tailTip = new Tip(this, this.stationList.get(this.stationList.size() - 1));
         modelService.updateLine(this, getLocationList());
