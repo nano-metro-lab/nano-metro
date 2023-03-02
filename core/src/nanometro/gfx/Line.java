@@ -15,6 +15,7 @@ public class Line {
     public final List<SectionPreview> sectionPreviewList;
     public Tip headTip, tailTip;
     public String colour;
+    public Colour colourObj;
 
 
     public List<Location> getLocationList() {
@@ -25,8 +26,9 @@ public class Line {
         return l;
     }
 
-    public Line(Location a, Location b, String colour) {
-        this.colour = colour;
+    public Line(Location a, Location b) {
+        this.colourObj = Colour.requestColour();
+        this.colour = this.colourObj.subColour1;
         this.sectionList = new ArrayList<Section>(20);
         this.sectionPreviewList = new ArrayList<SectionPreview>(1);
         this.stationList = new ArrayList<Station>(21);
@@ -36,6 +38,8 @@ public class Line {
         //
         this.headTip = new Tip(this, this.stationList.get(0));
         this.tailTip = new Tip(this, this.stationList.get(1));
+        // add line to model
+        modelService.addLine(this);
     }
 
     public Section getNextSection(Section s) {

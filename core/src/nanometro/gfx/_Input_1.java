@@ -85,8 +85,6 @@ public class _Input_1 implements InputProcessor {
                 break;
             }
         }
-//        System.out.println(this.startSection);
-//        System.out.println(this.endLocation);
         return true;
     }
 

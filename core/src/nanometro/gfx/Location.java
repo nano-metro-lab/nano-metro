@@ -98,7 +98,9 @@ public class Location {
         locationImage = new Texture(Gdx.files.internal(imgs.get(this.type)));
         locationSprite = new Sprite(locationImage);
         locationSprite.setSize(6f, 6f);
-//        locationImage.
+
+        // add location to model
+        modelService.addStation(this, this.getType());
 
     }
 
