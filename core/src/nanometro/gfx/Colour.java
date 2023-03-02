@@ -8,8 +8,8 @@ public class Colour {
     static List<Colour> colourList = GameScreen.colourList;
     public String subColour1, subColour2, subColour3;
     public boolean occupied = false;
-    private static float ratio2 = 0.5f;
-    private static float ratio3 = 0.5f;
+    private static final float ratio2 = 0.5f;
+    private static final float ratio3 = 0.5f;
     public Colour(String colourHex) {
         this.subColour1 = colourHex;
         // Todo
@@ -30,7 +30,7 @@ public class Colour {
 
     public static Colour requestColour() {
         for (Colour c: colourList) {
-            if (c.occupied == false) {
+            if (!c.occupied) {
                 c.occupied = true;
                 return c;
             }
