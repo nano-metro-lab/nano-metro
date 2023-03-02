@@ -43,6 +43,7 @@ public class Line {
         modelService.addLine(this);
         // create train
         GameScreen.trainList.add(new Train(this, this.sectionList.get(0), 0.5f));
+        this._update();
     }
 
     public Section getNextSection(Section s) {
