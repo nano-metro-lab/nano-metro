@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -113,7 +114,7 @@ public class Location {
         batch.end();
     }
 
-    public void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch, ShapeRenderer shape) {
         batch.begin();
 //        Vector3 v = new Vector3(this.position.x, this.position.y, 0);
 //        camera.project(v);
@@ -123,6 +124,31 @@ public class Location {
         locationSprite.setPosition(this.position.x - this.locationSprite.getWidth() / 2 , this.position.y - this.locationSprite.getWidth() / 2);
         locationSprite.draw(batch);
         batch.end();
+        //
+        Vector2 qPosition = this.position.cpy().add(1.7f, 0.6f);
+        float qGap = 1f;
+        shape.setProjectionMatrix(camera.combined);
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        for (Passenger p : this.passengerList) {
+            shape.setColor(Color.valueOf("#1f1f1f"));
+            if (p.getType() == LocationType.TRIANGLE) {
+                float x1, x2, x3, y1, y2, y3;
+                x1 = qPosition.x;
+                x2 = qPosition.x + 0.84f;
+                x3 = qPosition.x + 0.42f;
+                y1 = qPosition.y;
+                y2 = qPosition.y;
+                y3 = qPosition.y + 0.75f;
+                shape.triangle(x1, y1, x2, y2, x3, y3);
+            } else if (p.getType() == LocationType.SQUARE) {
+                shape.rect(qPosition.x, qPosition.y, 0.75f, 0.75f);
+            } else if (p.getType() == LocationType.CIRCLE) {
+                shape.circle(qPosition.x + 0.35f, qPosition.y + 0.35f, 0.4f, 20);
+            }
+            qPosition.add(qGap, 0);
+        }
+        shape.end();
+
 
     }
 

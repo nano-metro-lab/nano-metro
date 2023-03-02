@@ -145,8 +145,8 @@ public class GameScreen implements Screen {
             train.draw(game.shape);
         }
         for (Location l : locationList) {
-            l.drawDebug(game.debugBatch);
-            l.draw(game.batch);
+//            l.drawDebug(game.debugBatch);
+            l.draw(game.batch, game.shape);
         }
         input1.draw(game.shape);
 
