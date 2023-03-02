@@ -13,18 +13,18 @@ public class Colour {
     public Colour(String colourHex) {
         this.subColour1 = colourHex;
         // Todo
-        int r = Integer.parseInt(colourHex.substring(0, 2), 16);
-        int g = Integer.parseInt(colourHex.substring(2, 4), 16);
-        int b = Integer.parseInt(colourHex.substring(4, 6), 16);
+        int r = Integer.parseInt(colourHex.substring(1, 3), 16);
+        int g = Integer.parseInt(colourHex.substring(3, 5), 16);
+        int b = Integer.parseInt(colourHex.substring(5, 7), 16);
         r = (int) (r * ratio2);
         g = (int) (g * ratio2);
         b = (int) (b * ratio2);
         // Todo End
-        this.subColour2 = String.format("%02x%02x%02x", r, g, b);
+        this.subColour2 = String.format("#%02x%02x%02x", r, g, b);
         r = (int) ((255-r) * ratio3)+r;
         g = (int) ((255-g) * ratio3)+g;
         b = (int) ((255-b) * ratio3)+b;
-        this.subColour3 = String.format("%02x%02x%02x", r, g, b);
+        this.subColour3 = String.format("#%02x%02x%02x", r, g, b);
         colourList.add(this);
     }
 
@@ -41,4 +41,5 @@ public class Colour {
     public static void releaseColour(Colour c) {
         c.occupied = false;
     }
+
 }
