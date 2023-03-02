@@ -29,9 +29,9 @@ public class GameScreen implements Screen {
     public static ScreenViewport viewport;
     public static World world = new World(new Vector2(0, 0), false); // non-gravity Todo
     public static List<Line> lineList = new ArrayList<Line>(5);
-    static List<Train> trainList = new ArrayList<Train>(5);
+    public static List<Train> trainList = new ArrayList<Train>(5);
     public static List<Colour> colourList = new ArrayList<>(5);
-    static List<Location> locationList = new ArrayList<>(10);
+    public static List<Location> locationList = new ArrayList<>(10);
 
     public static ModelService<Location, Line> modelService = ModelServiceFactory.getInstance();
     private Train testTrain;

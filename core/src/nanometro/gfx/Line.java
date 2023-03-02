@@ -2,6 +2,7 @@ package nanometro.gfx;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import nanometro.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,8 @@ public class Line {
         this.tailTip = new Tip(this, this.stationList.get(1));
         // add line to model
         modelService.addLine(this);
+        // create train
+        GameScreen.trainList.add(new Train(this, this.sectionList.get(0), 0.5f));
     }
 
     public Section getNextSection(Section s) {
