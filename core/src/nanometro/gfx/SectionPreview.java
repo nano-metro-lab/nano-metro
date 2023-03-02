@@ -14,17 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SectionPreview {
-    Line line;
     Station upper;
     Station lower;
     Boxy path;
     List<Vector2> sampleList = new ArrayList<>();
+    Colour colourObj;
 
-    public SectionPreview(Line line, Vector2 upper, Vector2 lower) {
-        this.line = line;
-//        this.upper = upper;
-//        this.lower = lower;
+    public SectionPreview(Vector2 upper, Vector2 lower, Colour colourObj) {
         this.path = new Boxy(upper, lower);
+        this.colourObj = colourObj;
         generateSamples();
     }
 
@@ -42,9 +40,8 @@ public class SectionPreview {
         for (int i = 0; i < k - 1; i++) {
             shape.setProjectionMatrix(camera.combined);
             shape.begin(ShapeRenderer.ShapeType.Filled);
-            shape.setColor(Color.valueOf(this.line.colour));
+            shape.setColor(Color.valueOf(this.colourObj.subColour1));
             shape.rectLine(sampleList.get(i) , sampleList.get(i + 1), 0.7f);
-//            shape.line(sampleList.get(i) , sampleList.get(i + 1));
             shape.end();
         }
     }

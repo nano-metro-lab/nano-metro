@@ -2,6 +2,7 @@ package nanometro.gfx;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import nanometro.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public class Line {
     public final List<SectionPreview> sectionPreviewList;
     public Tip headTip, tailTip;
     public String colour;
+    public Colour colourObj;
 
 
     public List<Location> getLocationList() {
@@ -25,8 +27,9 @@ public class Line {
         return l;
     }
 
-    public Line(Location a, Location b, String colour) {
-        this.colour = colour;
+    public Line(Location a, Location b) {
+        this.colourObj = Colour.requestColour();
+        this.colour = this.colourObj.subColour1;
         this.sectionList = new ArrayList<Section>(20);
         this.sectionPreviewList = new ArrayList<SectionPreview>(1);
         this.stationList = new ArrayList<Station>(21);
@@ -36,6 +39,10 @@ public class Line {
         //
         this.headTip = new Tip(this, this.stationList.get(0));
         this.tailTip = new Tip(this, this.stationList.get(1));
+        // add line to model
+        modelService.addLine(this);
+        // create train
+        GameScreen.trainList.add(new Train(this, this.sectionList.get(0), 0.5f));
     }
 
     public Section getNextSection(Section s) {
@@ -54,6 +61,8 @@ public class Line {
     }
 
     private void _update() {
+        this.headTip.destroy();
+        this.tailTip.destroy();
         this.headTip = new Tip(this, this.stationList.get(0));
         this.tailTip = new Tip(this, this.stationList.get(this.stationList.size() - 1));
         modelService.updateLine(this, getLocationList());
@@ -90,14 +99,15 @@ public class Line {
         stationList.add(s);
         sectionList.add(new Section(this, f, s));
 //        modelService.updateLine(this, getLocationList());
-        this.headTip = new Tip(this, this.stationList.get(0));
-        this.tailTip = new Tip(this, this.stationList.get(this.stationList.size() - 1));
+//        this.headTip = new Tip(this, this.stationList.get(0));
+//        this.tailTip = new Tip(this, this.stationList.get(this.stationList.size() - 1));
+        this._update();
 
     }
 
     public void addPreviewTail(Vector2 v) {
         Vector2 f = stationList.get(stationList.size() - 1).getPlatform();
-        sectionPreviewList.add(new SectionPreview(this, f, v));
+        sectionPreviewList.add(new SectionPreview(f, v, this.colourObj));
     }
 
     public void removeLastPreview() {
@@ -108,7 +118,7 @@ public class Line {
 
     public void addPreviewHead(Vector2 v) {
         Vector2 f = stationList.get(0).getPlatform();
-        sectionPreviewList.add(new SectionPreview(this, v, f));
+        sectionPreviewList.add(new SectionPreview(v, f, this.colourObj));
     }
 
     public void addPreviewMiddle(Vector2 v, Section s) {
@@ -116,8 +126,8 @@ public class Line {
         Vector2 c = s.lower.getPlatform();
         Vector2 b = v;
         s.fade();
-        this.sectionPreviewList.add(new SectionPreview(this, a, b));
-        this.sectionPreviewList.add(new SectionPreview(this, b, c));
+        this.sectionPreviewList.add(new SectionPreview(a, b, this.colourObj));
+        this.sectionPreviewList.add(new SectionPreview(b, c, this.colourObj));
     }
 
     public void removeTail() {
