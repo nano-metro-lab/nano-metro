@@ -150,6 +150,11 @@ public class _Input_1 implements InputProcessor {
             }
         }
         this.isAddingTail = this.isAddingMiddle = this.isAddingHead = false;
+        if (this.isAddingNewLine) {
+            Colour.releaseColour(NLColour);
+            NLColour = null;
+            isAddingNewLine = false;
+        }
         // clear all previews
         if (this.selectedLine != null) {
             while (!this.selectedLine.sectionPreviewList.isEmpty()) {
