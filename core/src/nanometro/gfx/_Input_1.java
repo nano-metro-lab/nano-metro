@@ -99,7 +99,6 @@ public class _Input_1 implements InputProcessor {
                     break;
                 } else if (f.getBody().getUserData() instanceof Location){
                     this.isAddingNewLine = true;
-                    System.out.println(1111);
                     Location o = (Location) f.getBody().getUserData();
                     NLStart = o;
                     NLStartPlatform = o.requestPlatform();
@@ -141,13 +140,16 @@ public class _Input_1 implements InputProcessor {
 
                     } else if (this.isAddingTail || this.isAddingHead) {
                         this.endLocation = o;
-
                         if (head != null) {
-                            head.line.addHead(endLocation);
+                            if (head.line.stationList.get(0).location != endLocation) {
+                                head.line.addHead(endLocation);
+                            }
                             clear();
                             break;
                         } else if (tail != null) {
-                            tail.line.addTail(endLocation);
+                            if (tail.line.stationList.get(tail.line.stationList.size()-1).location != endLocation) {
+                                tail.line.addTail(endLocation);
+                            }
                             clear();
                             break;
                         } else {
