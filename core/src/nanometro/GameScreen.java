@@ -36,6 +36,8 @@ public class GameScreen implements Screen {
     public static SpriteBatch batch;
     public static ShapeRenderer shape;
     public static SpriteBatch debugBatch;
+    public static SpriteBatch hudBatch;
+
     private Train testTrain;
     private Section testSection;
     private Line testLine;
@@ -51,14 +53,11 @@ public class GameScreen implements Screen {
 		viewport = new ScreenViewport(camera);
 		viewport.setUnitsPerPixel(0.05f);
 		viewport.apply();
-
-        game.batch = new SpriteBatch();
-        game.debugBatch = new SpriteBatch();
         debugBatch = game.debugBatch;
         batch = game.batch;
-        game.shape = new ShapeRenderer();
-        game.shape.setProjectionMatrix(camera.combined);
         shape = game.shape;
+        shape.setProjectionMatrix(camera.combined);
+        hudBatch = game.hudBatch;
         input1 = new _Input_1();
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(input1);
