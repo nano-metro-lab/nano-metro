@@ -11,11 +11,13 @@ class LevelImpl implements Level {
   private final String name;
   private final List<Location> locations;
   private final List<Location> restLocations;
+  private final List<Float> delayTimes;
 
-  LevelImpl(String name, List<Location> locations, List<Location> restLocations) {
+  LevelImpl(String name, List<Location> restLocations, List<Float> delayTimes) {
     this.name = name;
-    this.locations = new ArrayList<>(locations);
+    this.locations = new ArrayList<>(10);
     this.restLocations = new ArrayList<>(restLocations);
+    this.delayTimes = new ArrayList<>(delayTimes);
   }
 
   @Override
@@ -34,16 +36,21 @@ class LevelImpl implements Level {
   }
 
   private void schedule() {
-    Timer.schedule(new Timer.Task() {
-      @Override
-      public void run() {
-        if (restLocations.isEmpty()) {
-          cancel();
-        } else {
-          schedule();
-          locations.add(restLocations.remove(0));
-        }
+    if (this.restLocations.size() < 1 || this.restLocations.size() != this.delayTimes.size()) {
+      throw new IllegalStateException("Level load error");
+    }
+    for (int i = 0; i < this.restLocations.size(); i++) {
+      if (this.delayTimes.get(i) == 0.0f) {
+        locations.add(restLocations.get(i));
+      } else {
+        int finalI = i;
+        Timer.schedule(new Timer.Task() {
+          @Override
+          public void run() {
+            locations.add(restLocations.get(finalI));
+          }
+        }, delayTimes.get(finalI));
       }
-    }, 20);
+    }
   }
 }
