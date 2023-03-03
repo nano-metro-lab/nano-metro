@@ -23,7 +23,7 @@ import java.util.Random;
 
 public class GameScreen implements Screen {
     boolean DEBUG = false;
-    final NanoMetro game;
+    public final NanoMetro game;
 
     public static OrthographicCamera camera;
     public static ScreenViewport viewport;
@@ -34,6 +34,8 @@ public class GameScreen implements Screen {
     public static List<Location> locationList = new ArrayList<>(10);
 
     public static ModelService<Location, Line> modelService = ModelServiceFactory.getInstance();
+    public static SpriteBatch batch;
+    public static ShapeRenderer shape;
     private Train testTrain;
     private Section testSection;
     private Line testLine;
@@ -53,9 +55,10 @@ public class GameScreen implements Screen {
 
         game.batch = new SpriteBatch();
         game.debugBatch = new SpriteBatch();
-
+        batch = game.batch;
         game.shape = new ShapeRenderer();
         game.shape.setProjectionMatrix(camera.combined);
+        shape = game.shape;
         input1 = new _Input_1();
 //        input2 = new _Input_2();
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -135,20 +138,20 @@ public class GameScreen implements Screen {
         // tell the camera to update its matrices.
         camera.update();
         for (Line line : lineList) {
-            line.draw(game.shape);
+            line.draw();
         }
         if (DEBUG) game.debugRenderer.render(world, camera.combined);
         for (Train train : trainList) {
 //			Gdx.gl.glLineWidth(5);
             train.run();
-            train.debugDraw(game.debugBatch);
-            train.draw(game.shape);
+            train.debugDraw();
+            train.draw();
         }
         for (Location l : locationList) {
-//            l.drawDebug(game.debugBatch);
-            l.draw(game.batch, game.shape);
+//            l.drawDebug();
+            l.draw();
         }
-        input1.draw(game.shape);
+        input1.draw();
 
         world.step(1/60f, 6, 2);
 //		System.out.println(testLine);

@@ -52,6 +52,8 @@ public class Location {
     LocationType type;
     Texture locationImage;
     Sprite locationSprite;
+    SpriteBatch batch = GameScreen.batch;
+    ShapeRenderer shape = GameScreen.shape;
 
     public void addPassenger(Passenger p) {
         this.passengerList.add(p);
@@ -106,7 +108,7 @@ public class Location {
 
     }
 
-    public void drawDebug(SpriteBatch batch) {
+    public void drawDebug() {
         Vector3 p = new Vector3(position.x + 1.5f, position.y + 1f, 0);
         camera.project(p);
         batch.begin();
@@ -114,7 +116,9 @@ public class Location {
         batch.end();
     }
 
-    public void draw(SpriteBatch batch, ShapeRenderer shape) {
+    public void draw() {
+
+
         batch.begin();
 //        Vector3 v = new Vector3(this.position.x, this.position.y, 0);
 //        camera.project(v);

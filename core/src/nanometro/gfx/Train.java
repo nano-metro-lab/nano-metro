@@ -79,7 +79,7 @@ public class Train {
 //        this.trainBody.
     }
 
-    public void debugDraw(SpriteBatch batch) {
+    public void debugDraw() {
         Vector3 p = new Vector3(this.trainBody.getWorldCenter().x, this.trainBody.getWorldCenter().y, 0);
 //        camera.project(p);
         viewport.project(p);
@@ -88,7 +88,7 @@ public class Train {
         batch.end();
     }
 
-    public void draw(ShapeRenderer shape) {
+    public void draw() {
         shape.setProjectionMatrix(camera.combined);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(Color.valueOf(this.line.colourObj.subColour3));

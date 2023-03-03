@@ -6,12 +6,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
-import static nanometro.GameScreen.camera;
-import static nanometro.GameScreen.world;
-import static nanometro.GameScreen.modelService;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static nanometro.GameScreen.*;
 
 public class Section {
     String colour;
@@ -52,7 +50,7 @@ public class Section {
         this.colour = this.line.colour;
     }
 
-    public void draw(ShapeRenderer shape) {
+    public void draw() {
         int k = this.sampleList.size();
         for (int i = 0; i < k - 1; i++) {
             shape.setProjectionMatrix(camera.combined);

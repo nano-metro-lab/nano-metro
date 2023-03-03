@@ -202,9 +202,9 @@ public class _Input_1 implements InputProcessor {
 
     }
 
-    public void draw(ShapeRenderer shape) {
+    public void draw() {
         if (this.isAddingNewLine && this.NLSectionPreview != null) {
-            NLSectionPreview.draw(shape);
+            NLSectionPreview.draw();
         }
     }
 
