@@ -16,7 +16,7 @@ class LevelImpl implements Level {
   LevelImpl(String name, List<Location> restLocations, List<Float> delayTimes) {
     this.name = name;
     this.locations = new ArrayList<>(10);
-    this.restLocations = restLocations;
+    this.restLocations = new ArrayList<>(restLocations);
     this.delayTimes = new ArrayList<>(delayTimes);
   }
 
