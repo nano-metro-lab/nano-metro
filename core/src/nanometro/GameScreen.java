@@ -36,6 +36,7 @@ public class GameScreen implements Screen {
     public static ModelService<Location, Line> modelService = ModelServiceFactory.getInstance();
     public static SpriteBatch batch;
     public static ShapeRenderer shape;
+    public static SpriteBatch debugBatch;
     private Train testTrain;
     private Section testSection;
     private Line testLine;
@@ -55,6 +56,7 @@ public class GameScreen implements Screen {
 
         game.batch = new SpriteBatch();
         game.debugBatch = new SpriteBatch();
+        debugBatch = game.debugBatch;
         batch = game.batch;
         game.shape = new ShapeRenderer();
         game.shape.setProjectionMatrix(camera.combined);
@@ -144,7 +146,7 @@ public class GameScreen implements Screen {
         for (Train train : trainList) {
 //			Gdx.gl.glLineWidth(5);
             train.run();
-            train.debugDraw();
+//            train.debugDraw();
             train.draw();
         }
         for (Location l : locationList) {
