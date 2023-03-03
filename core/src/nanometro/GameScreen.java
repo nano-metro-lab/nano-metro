@@ -2,7 +2,6 @@ package nanometro;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -146,11 +145,11 @@ public class GameScreen implements Screen {
         for (Train train : trainList) {
 //			Gdx.gl.glLineWidth(5);
             train.run();
-//            train.debugDraw();
+            if (DEBUG) train.drawDebug();
             train.draw();
         }
         for (Location l : locationList) {
-//            l.drawDebug();
+            if (DEBUG) l.drawDebug();
             l.draw();
         }
         input1.draw();

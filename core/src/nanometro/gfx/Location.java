@@ -111,9 +111,9 @@ public class Location {
     public void drawDebug() {
         Vector3 p = new Vector3(position.x + 1.5f, position.y + 1f, 0);
         camera.project(p);
-        batch.begin();
-        debugFont.draw(batch, passengerList.toString(), p.x, p.y);
-        batch.end();
+        debugBatch.begin();
+        debugFont.draw(debugBatch, passengerList.toString(), p.x, p.y);
+        debugBatch.end();
     }
 
     public void draw() {
