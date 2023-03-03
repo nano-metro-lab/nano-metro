@@ -59,7 +59,7 @@ public class Section {
             shape.rectLine(sampleList.get(i) , sampleList.get(i + 1), 0.7f);
             float cx = (sampleList.get(i).x + sampleList.get(i + 1).x) / 2;
             float cy = (sampleList.get(i).y + sampleList.get(i + 1).y) / 2;
-            shape.circle(cx, cy, 0.35f);
+            shape.circle(cx, cy, 0.35f, 15);
             shape.end();
         }
     }
