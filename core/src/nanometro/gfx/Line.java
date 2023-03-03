@@ -1,5 +1,6 @@
 package nanometro.gfx;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import nanometro.GameScreen;
@@ -17,8 +18,7 @@ public class Line {
     public Tip headTip, tailTip;
     public String colour;
     public Colour colourObj;
-    private static List<Line> lineList = GameScreen.lineList;
-
+    List<Line> lineList = GameScreen.lineList;
 
     public List<Location> getLocationList() {
         List<Location> l = new ArrayList<>();
@@ -80,20 +80,20 @@ public class Line {
         return null;
     }
 
-    public void draw(ShapeRenderer shape) {
+    public void draw() {
 //        Gdx.gl.glEnable(GL20.GL_BLEND);
 //        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 //        Gdx.gl.glLineWidth(25);
 //        if (stationList.size() < 2) return;
         for (Section s : this.sectionList) {
-            s.draw(shape);
+            s.draw();
         }
         for (SectionPreview s : this.sectionPreviewList) {
-            s.draw(shape);
+            s.draw();
         }
 //        Gdx.gl.glDisable(GL20.GL_BLEND);
-        this.tailTip.draw(shape);
-        this.headTip.draw(shape);
+        this.tailTip.draw();
+        this.headTip.draw();
     }
 
     public void addTail(Location l) {

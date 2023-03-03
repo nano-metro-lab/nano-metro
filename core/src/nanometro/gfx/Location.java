@@ -52,6 +52,8 @@ public class Location {
     LocationType type;
     Texture locationImage;
     Sprite locationSprite;
+    SpriteBatch batch = GameScreen.batch;
+    ShapeRenderer shape = GameScreen.shape;
 
     public void addPassenger(Passenger p) {
         this.passengerList.add(p);
@@ -106,15 +108,17 @@ public class Location {
 
     }
 
-    public void drawDebug(SpriteBatch batch) {
+    public void drawDebug() {
         Vector3 p = new Vector3(position.x + 1.5f, position.y + 1f, 0);
         camera.project(p);
-        batch.begin();
-        debugFont.draw(batch, passengerList.toString(), p.x, p.y);
-        batch.end();
+        debugBatch.begin();
+        debugFont.draw(debugBatch, passengerList.toString(), p.x, p.y);
+        debugBatch.end();
     }
 
-    public void draw(SpriteBatch batch, ShapeRenderer shape) {
+    public void draw() {
+
+
         batch.begin();
 //        Vector3 v = new Vector3(this.position.x, this.position.y, 0);
 //        camera.project(v);
@@ -127,29 +131,10 @@ public class Location {
         //
         Vector2 qPosition = this.position.cpy().add(1.7f, 0.6f);
         float qGap = 1f;
-        shape.setProjectionMatrix(camera.combined);
-        shape.begin(ShapeRenderer.ShapeType.Filled);
         for (Passenger p : this.passengerList) {
-            shape.setColor(Color.valueOf("#1f1f1f"));
-            if (p.getType() == LocationType.TRIANGLE) {
-                float x1, x2, x3, y1, y2, y3;
-                x1 = qPosition.x;
-                x2 = qPosition.x + 0.84f;
-                x3 = qPosition.x + 0.42f;
-                y1 = qPosition.y;
-                y2 = qPosition.y;
-                y3 = qPosition.y + 0.75f;
-                shape.triangle(x1, y1, x2, y2, x3, y3);
-            } else if (p.getType() == LocationType.SQUARE) {
-                shape.rect(qPosition.x, qPosition.y, 0.75f, 0.75f);
-            } else if (p.getType() == LocationType.CIRCLE) {
-                shape.circle(qPosition.x + 0.35f, qPosition.y + 0.35f, 0.4f, 20);
-            }
+            p.draw(qPosition);
             qPosition.add(qGap, 0);
         }
-        shape.end();
-
-
     }
 
     public void destroy() {world.destroyBody(this.locationBody);

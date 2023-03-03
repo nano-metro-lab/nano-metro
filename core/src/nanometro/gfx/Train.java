@@ -3,7 +3,6 @@ package nanometro.gfx;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -79,16 +78,16 @@ public class Train {
 //        this.trainBody.
     }
 
-    public void debugDraw(SpriteBatch batch) {
+    public void drawDebug() {
         Vector3 p = new Vector3(this.trainBody.getWorldCenter().x, this.trainBody.getWorldCenter().y, 0);
 //        camera.project(p);
         viewport.project(p);
-        batch.begin();
-        debugFont.draw(batch, passengerList.toString(), p.x,p.y);
-        batch.end();
+        debugBatch.begin();
+        debugFont.draw(debugBatch, passengerList.toString(), p.x,p.y);
+        debugBatch.end();
     }
 
-    public void draw(ShapeRenderer shape) {
+    public void draw() {
         shape.setProjectionMatrix(camera.combined);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(Color.valueOf(this.line.colourObj.subColour3));
@@ -103,6 +102,13 @@ public class Train {
                 trainShapeWidth, trainShapeHeight,
                 1, 1, (float)degree);
         shape.end();
+        Vector2 qPosition = this.currentPosition.cpy().add(1.7f, 0.6f);
+        float qGap = 1f;
+        for (Passenger p : this.passengerList) {
+            p.draw(qPosition);
+            qPosition.add(qGap, 0);
+        }
+
     }
 
     public void set() {

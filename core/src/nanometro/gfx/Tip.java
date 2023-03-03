@@ -7,9 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 
-import static nanometro.GameScreen.camera;
-import static nanometro.GameScreen.world;
-import static nanometro.GameScreen.modelService;
+import static nanometro.GameScreen.*;
 
 public class Tip {
     float radius = 1f;
@@ -41,7 +39,7 @@ public class Tip {
 
     }
 
-    public void draw(ShapeRenderer shape) {
+    public void draw() {
         shape.setProjectionMatrix(camera.combined);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(Color.valueOf(this.line.colour));

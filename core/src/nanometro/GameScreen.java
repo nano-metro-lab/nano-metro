@@ -2,7 +2,6 @@ package nanometro;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -23,7 +22,7 @@ import java.util.Random;
 
 public class GameScreen implements Screen {
     boolean DEBUG = false;
-    final NanoMetro game;
+    public final NanoMetro game;
 
     public static OrthographicCamera camera;
     public static ScreenViewport viewport;
@@ -34,12 +33,14 @@ public class GameScreen implements Screen {
     public static List<Location> locationList = new ArrayList<>(10);
 
     public static ModelService<Location, Line> modelService = ModelServiceFactory.getInstance();
+    public static SpriteBatch batch;
+    public static ShapeRenderer shape;
+    public static SpriteBatch debugBatch;
     private Train testTrain;
     private Section testSection;
     private Line testLine;
 
     private _Input_1 input1;
-    private _Input_2 input2;
 
 
     public GameScreen(NanoMetro game) {
@@ -53,14 +54,14 @@ public class GameScreen implements Screen {
 
         game.batch = new SpriteBatch();
         game.debugBatch = new SpriteBatch();
-
+        debugBatch = game.debugBatch;
+        batch = game.batch;
         game.shape = new ShapeRenderer();
         game.shape.setProjectionMatrix(camera.combined);
+        shape = game.shape;
         input1 = new _Input_1();
-//        input2 = new _Input_2();
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(input1);
-//        inputMultiplexer.addProcessor(input2);
         Gdx.input.setInputProcessor(inputMultiplexer);
         setup();
     }
@@ -135,20 +136,20 @@ public class GameScreen implements Screen {
         // tell the camera to update its matrices.
         camera.update();
         for (Line line : lineList) {
-            line.draw(game.shape);
+            line.draw();
         }
         if (DEBUG) game.debugRenderer.render(world, camera.combined);
         for (Train train : trainList) {
 //			Gdx.gl.glLineWidth(5);
             train.run();
-            train.debugDraw(game.debugBatch);
-            train.draw(game.shape);
+            if (DEBUG) train.drawDebug();
+            train.draw();
         }
         for (Location l : locationList) {
-//            l.drawDebug(game.debugBatch);
-            l.draw(game.batch, game.shape);
+            if (DEBUG) l.drawDebug();
+            l.draw();
         }
-        input1.draw(game.shape);
+        input1.draw();
 
         world.step(1/60f, 6, 2);
 //		System.out.println(testLine);
