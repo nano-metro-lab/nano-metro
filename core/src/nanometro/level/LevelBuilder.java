@@ -7,23 +7,18 @@ import java.util.List;
 
 public class LevelBuilder {
   private String name;
-  private final List<Location> locations = new ArrayList<>();
-  private final List<Location> initialLocations = new ArrayList<>();
+  private final List<Location> restLocations = new ArrayList<>();
+  private final List<Float> delayTimes = new ArrayList<>();
 
   public LevelBuilder setName(String name) {
     this.name = name;
     return this;
   }
 
-  public LevelBuilder addLocation(float x, float y, Location.LocationType type) {
+  public LevelBuilder addLocation(float x, float y, Location.LocationType type, float delayTime) {
     Location location = new Location(x, y, type);
-    locations.add(location);
-    return this;
-  }
-
-  public LevelBuilder addInitialLocation(float x, float y, Location.LocationType type) {
-    Location location = new Location(x, y, type);
-    initialLocations.add(location);
+    restLocations.add(location);
+    delayTimes.add(delayTime);
     return this;
   }
 
@@ -31,6 +26,6 @@ public class LevelBuilder {
     if (name == null) {
       throw new IllegalStateException("Name is not set");
     }
-    return new LevelImpl(name, initialLocations, locations);
+    return new LevelImpl(name, restLocations, delayTimes);
   }
 }

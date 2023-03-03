@@ -78,14 +78,14 @@ public class GameScreen implements Screen {
 
         Level level = new LevelBuilder()
           .setName("Level 1")
-          .addInitialLocation(28, 17, Location.LocationType.CIRCLE)
-          .addInitialLocation(36, 8, Location.LocationType.TRIANGLE)
-          .addInitialLocation(9, 7, Location.LocationType.SQUARE)
-          .addLocation(4, 35, Location.LocationType.CIRCLE)
-          .addLocation(12, 20, Location.LocationType.CIRCLE)
-          .addLocation(20, 20, Location.LocationType.CIRCLE)
-          .addLocation(9, 15, Location.LocationType.CIRCLE)
-          .addLocation(38, 35, Location.LocationType.TRIANGLE)
+          .addLocation(28, 17, Location.LocationType.CIRCLE, 0)
+          .addLocation(36, 8, Location.LocationType.TRIANGLE, 0)
+          .addLocation(9, 7, Location.LocationType.SQUARE, 0)
+          .addLocation(4, 35, Location.LocationType.CIRCLE, 20)
+          .addLocation(12, 20, Location.LocationType.CIRCLE, 35)
+          .addLocation(20, 20, Location.LocationType.CIRCLE, 42)
+          .addLocation(9, 15, Location.LocationType.CIRCLE, 55)
+          .addLocation(38, 35, Location.LocationType.TRIANGLE,70)
           .build();
         level.start();
         locationList = level.getLocations();
