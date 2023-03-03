@@ -99,10 +99,10 @@ public class _Input_1 implements InputProcessor {
                     break;
                 } else if (f.getBody().getUserData() instanceof Location){
                     this.isAddingNewLine = true;
-                    System.out.println(1111);
                     Location o = (Location) f.getBody().getUserData();
                     NLStart = o;
                     NLStartPlatform = o.requestPlatform();
+                    o.releasePlatform(NLStartPlatform);
                     NLColour = Colour.requestColour();
                 }
             }
@@ -133,18 +133,23 @@ public class _Input_1 implements InputProcessor {
 //                    this.NLStart.releasePlatform(); Todo
                         Colour.releaseColour(NLColour);
                         this.NLEnd = o;
-                        lineList.add(new Line(NLStart, NLEnd));
+                        if (this.NLEnd != this.NLStart) {
+                            lineList.add(new Line(NLStart, NLEnd));
+                        }
                         this.isAddingNewLine = false;
 
                     } else if (this.isAddingTail || this.isAddingHead) {
                         this.endLocation = o;
-
                         if (head != null) {
-                            head.line.addHead(endLocation);
+                            if (head.line.stationList.get(0).location != endLocation) {
+                                head.line.addHead(endLocation);
+                            }
                             clear();
                             break;
                         } else if (tail != null) {
-                            tail.line.addTail(endLocation);
+                            if (tail.line.stationList.get(tail.line.stationList.size()-1).location != endLocation) {
+                                tail.line.addTail(endLocation);
+                            }
                             clear();
                             break;
                         } else {
