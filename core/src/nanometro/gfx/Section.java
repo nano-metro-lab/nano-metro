@@ -56,10 +56,10 @@ public class Section {
             shape.setProjectionMatrix(camera.combined);
             shape.begin(ShapeRenderer.ShapeType.Filled);
             shape.setColor(Color.valueOf(this.colour));
-            shape.rectLine(sampleList.get(i) , sampleList.get(i + 1), 0.7f);
+            shape.rectLine(sampleList.get(i) , sampleList.get(i + 1), 0.76f);
             float cx = (sampleList.get(i).x + sampleList.get(i + 1).x) / 2;
             float cy = (sampleList.get(i).y + sampleList.get(i + 1).y) / 2;
-            shape.circle(cx, cy, 0.35f, 15);
+            shape.circle(cx, cy, 0.38f, 15);
             shape.end();
         }
     }
