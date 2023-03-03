@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import nanometro.gfx.*;
+import nanometro.level.Level;
+import nanometro.level.LevelBuilder;
 import nanometro.model.ModelServiceFactory;
 import nanometro.model.service.ModelService;
 
@@ -74,16 +76,19 @@ public class GameScreen implements Screen {
         Colour c4 = new Colour("#e0e0e0");
         colourList = List.of(c1, c2, c3);
 
-        // locations set up
-        Location l1 = new Location(4, 35, Location.LocationType.CIRCLE);
-        Location l2 = new Location(12, 20, Location.LocationType.CIRCLE);
-        Location l3 = new Location(20, 20, Location.LocationType.CIRCLE);
-        Location l4 = new Location(28, 17, Location.LocationType.CIRCLE);
-        Location l5 = new Location(36, 8, Location.LocationType.TRIANGLE);
-        Location l6 = new Location(9, 15, Location.LocationType.CIRCLE);
-        Location l7 = new Location(9, 7, Location.LocationType.SQUARE);
-        Location l8 = new Location(38, 35, Location.LocationType.TRIANGLE);
-        locationList = List.of(l1, l2, l3, l4, l5, l6, l7, l8);
+        Level level = new LevelBuilder()
+          .setName("Level 1")
+          .addInitialLocation(28, 17, Location.LocationType.CIRCLE)
+          .addInitialLocation(36, 8, Location.LocationType.TRIANGLE)
+          .addInitialLocation(9, 7, Location.LocationType.SQUARE)
+          .addLocation(4, 35, Location.LocationType.CIRCLE)
+          .addLocation(12, 20, Location.LocationType.CIRCLE)
+          .addLocation(20, 20, Location.LocationType.CIRCLE)
+          .addLocation(9, 15, Location.LocationType.CIRCLE)
+          .addLocation(38, 35, Location.LocationType.TRIANGLE)
+          .build();
+        level.start();
+        locationList = level.getLocations();
 
         Timer.schedule(new Timer.Task() {
             private final Random random = new Random();
