@@ -41,7 +41,6 @@ public class GameScreen implements Screen {
     private Line testLine;
 
     private _Input_1 input1;
-    private _Input_2 input2;
 
 
     public GameScreen(NanoMetro game) {
@@ -61,10 +60,8 @@ public class GameScreen implements Screen {
         game.shape.setProjectionMatrix(camera.combined);
         shape = game.shape;
         input1 = new _Input_1();
-//        input2 = new _Input_2();
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(input1);
-//        inputMultiplexer.addProcessor(input2);
         Gdx.input.setInputProcessor(inputMultiplexer);
         setup();
     }
