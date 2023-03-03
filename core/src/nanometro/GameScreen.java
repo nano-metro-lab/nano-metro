@@ -38,9 +38,7 @@ public class GameScreen implements Screen {
     public static SpriteBatch debugBatch;
     public static SpriteBatch hudBatch;
 
-    private Train testTrain;
-    private Section testSection;
-    private Line testLine;
+    private static HUD hud;
 
     private _Input_1 input1;
 
@@ -66,6 +64,8 @@ public class GameScreen implements Screen {
     }
 
     private void setup() {
+        // setup hud
+        hud = new HUD();
         // colours set up
         Colour c1 = new Colour("#fcce05");
         Colour c2 = new Colour("#1c4094");
@@ -134,6 +134,7 @@ public class GameScreen implements Screen {
 //		batch.setProjectionMatrix(camera.combined);
         // tell the camera to update its matrices.
         camera.update();
+        hud.draw();
         for (Line line : lineList) {
             line.draw();
         }
