@@ -35,16 +35,22 @@ public class Location {
     }
 
     public Vector2 requestPlatform() {
-        if (this.platformPool.isEmpty()) {
-            return null;
+        for (Vector2 v: this.platformPool) {
+            if (!this.occupiedPlatform.contains(v)) {
+                this.occupiedPlatform.add(v);
+                return v;
+            }
         }
-        Vector2 v = this.platformPool.get(0);
-        this.platformPool.remove(v);
-        return v;
+        return null;
+    }
+
+    public void releasePlatform(Vector2 v) {
+        this.occupiedPlatform.remove(v);
     }
 
 
     private List<Vector2> platformPool = new ArrayList<>();
+    private List<Vector2> occupiedPlatform = new ArrayList<>();
     private Vector2 position;
     Body locationBody;
     BitmapFont debugFont;
