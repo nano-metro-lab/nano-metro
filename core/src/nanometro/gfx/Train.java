@@ -1,6 +1,7 @@
 package nanometro.gfx;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,7 +31,7 @@ public class Train {
     BitmapFont debugFont;
     Location thisLocation;
     Location nextLocation;
-
+    Music music = Gdx.audio.newMusic(Gdx.files.internal("assets/click.wav"));
     public void stopTrain() {
         stopSignal = 1;
     }
@@ -95,6 +96,13 @@ public class Train {
                 removeLst.add(p);
                 if (p.getType() != thisLocation.type) {
                     thisLocation.passengerList.add(p);
+                }else{
+                    if(music.isPlaying()){
+                        music.stop();
+                        music.play();
+                    }else{
+                        music.play();
+                    }
                 }
             }
         }

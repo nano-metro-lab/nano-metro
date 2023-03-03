@@ -35,7 +35,6 @@ public class GameScreen implements Screen {
     private Train testTrain;
     private Section testSection;
     private Line testLine;
-
     public GameScreen(NanoMetro game) {
         this.game = game;
 

@@ -16,7 +16,6 @@ public class Line {
     public Tip headTip, tailTip;
     public String colour;
 
-
     public List<Location> getLocationList() {
         List<Location> l = new ArrayList<>();
         for (Station s : stationList) {
