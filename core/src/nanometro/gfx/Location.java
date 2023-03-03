@@ -2,7 +2,6 @@ package nanometro.gfx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,7 +13,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.World;
 import nanometro.GameScreen;
 
 import java.util.ArrayList;
@@ -60,6 +58,7 @@ public class Location {
     Sprite locationSprite;
     SpriteBatch batch = GameScreen.batch;
     ShapeRenderer shape = GameScreen.shape;
+    boolean initFinished = false;
 
     public void addPassenger(Passenger p) {
         this.passengerList.add(p);
@@ -73,7 +72,9 @@ public class Location {
     public Location(float x, float y, LocationType type) {
         this.position = new Vector2(x, y);
         this.type = type;
+    }
 
+    public void init() {
         BodyDef locationBodyDef = new BodyDef();
         this.locationBody = world.createBody(locationBodyDef);
         CircleShape locationShape = new CircleShape();
@@ -111,7 +112,7 @@ public class Location {
 
         // add location to model
         modelService.addStation(this, this.getType());
-
+        this.initFinished = true;
     }
 
     public void drawDebug() {
@@ -123,7 +124,7 @@ public class Location {
     }
 
     public void draw() {
-
+        if (!this.initFinished) return;
 
         batch.begin();
 //        Vector3 v = new Vector3(this.position.x, this.position.y, 0);

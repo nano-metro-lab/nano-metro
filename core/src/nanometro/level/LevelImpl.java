@@ -41,13 +41,18 @@ class LevelImpl implements Level {
     }
     for (int i = 0; i < this.restLocations.size(); i++) {
       if (this.delayTimes.get(i) == 0.0f) {
-        locations.add(restLocations.get(i));
+        Location l = restLocations.get(i);
+        locations.add(l);
+        l.init();
       } else {
         int finalI = i;
         Timer.schedule(new Timer.Task() {
           @Override
           public void run() {
-            locations.add(restLocations.get(finalI));
+            Location l = restLocations.get(finalI);
+            locations.add(l);
+            l.init();
+
           }
         }, delayTimes.get(finalI));
       }
