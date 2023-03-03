@@ -1,8 +1,6 @@
 package nanometro.gfx;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -12,7 +10,6 @@ import nanometro.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import static nanometro.GameScreen.*;
 
@@ -32,6 +29,7 @@ public class _Input_1 implements InputProcessor {
     private boolean isAddingTail = false;
     private boolean isAddingMiddle = false;
     private boolean isAddingHead = false;
+    private boolean isMovingMap = false;
     private Line selectedLine = null;
 
     // case creating new line
@@ -41,6 +39,9 @@ public class _Input_1 implements InputProcessor {
     private Location NLStart;
     private Vector2 NLStartPlatform;
     private Location NLEnd;
+
+    // case Moving Map
+    private Vector2 MMv;
 
     public _Input_1() {
 
@@ -73,33 +74,37 @@ public class _Input_1 implements InputProcessor {
                 return true;
             }
         }, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y);
-        for (Fixture f : fixtureList) {
-            if (f.getBody().getUserData() instanceof Tip) {
-                Tip t = (Tip) f.getBody().getUserData();
-                this.selectedLine = t.line;
-                if (t.station == t.line.stationList.get(0)) {
-                    // head tip
-                    this.isAddingHead = true;
-                    head = t;
+        if (fixtureList.isEmpty()) {
+            this.isMovingMap = true;
+        } else {
+            for (Fixture f : fixtureList) {
+                if (f.getBody().getUserData() instanceof Tip) {
+                    Tip t = (Tip) f.getBody().getUserData();
+                    this.selectedLine = t.line;
+                    if (t.station == t.line.stationList.get(0)) {
+                        // head tip
+                        this.isAddingHead = true;
+                        head = t;
+                        break;
+                    } else {
+                        this.isAddingTail = true;
+                        tail = t;
+                        break;
+                    }
+                } else if (f.getBody().getUserData() instanceof Sensor) {
+                    Sensor o = (Sensor) f.getBody().getUserData();
+                    this.selectedLine = o.section.line;
+                    this.selectedSection = o.section;
+                    this.isAddingMiddle = true;
                     break;
-                } else {
-                    this.isAddingTail = true;
-                    tail = t;
-                    break;
+                } else if (f.getBody().getUserData() instanceof Location){
+                    this.isAddingNewLine = true;
+                    System.out.println(1111);
+                    Location o = (Location) f.getBody().getUserData();
+                    NLStart = o;
+                    NLStartPlatform = o.requestPlatform();
+                    NLColour = Colour.requestColour();
                 }
-            } else if (f.getBody().getUserData() instanceof Sensor) {
-                Sensor o = (Sensor) f.getBody().getUserData();
-                this.selectedLine = o.section.line;
-                this.selectedSection = o.section;
-                this.isAddingMiddle = true;
-                break;
-            } else if (f.getBody().getUserData() instanceof Location){
-                this.isAddingNewLine = true;
-                System.out.println(1111);
-                Location o = (Location) f.getBody().getUserData();
-                NLStart = o;
-                NLStartPlatform = o.requestPlatform();
-                NLColour = Colour.requestColour();
             }
         }
         return true;
@@ -116,39 +121,45 @@ public class _Input_1 implements InputProcessor {
                 return true;
             }
         }, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y);
-        for (Fixture f : fixtureList) {
-            if (f.getBody().getUserData() instanceof Location) {
-                Location o = (Location) f.getBody().getUserData();
-                if (this.isAddingNewLine) {
+        if (fixtureList.isEmpty()) {
+            this.isMovingMap = false;
+            Vector2 MMoffset = MMv;
+            MMv = null;
+        } else {
+            for (Fixture f : fixtureList) {
+                if (f.getBody().getUserData() instanceof Location) {
+                    Location o = (Location) f.getBody().getUserData();
+                    if (this.isAddingNewLine) {
 //                    this.NLStart.releasePlatform(); Todo
-                    Colour.releaseColour(NLColour);
-                    this.NLEnd = o;
-                    lineList.add(new Line(NLStart, NLEnd));
-                    this.isAddingNewLine = false;
+                        Colour.releaseColour(NLColour);
+                        this.NLEnd = o;
+                        lineList.add(new Line(NLStart, NLEnd));
+                        this.isAddingNewLine = false;
 
-                } else if (this.isAddingTail || this.isAddingHead) {
-                    this.endLocation = o;
+                    } else if (this.isAddingTail || this.isAddingHead) {
+                        this.endLocation = o;
 
-                    if (head != null) {
-                        head.line.addHead(endLocation);
-                        clear();
-                        break;
-                    } else if (tail != null) {
-                        tail.line.addTail(endLocation);
-                        clear();
-                        break;
-                    } else {
-                        for (Line l : GameScreen.lineList) {
-                            if (l.hasSection(this.selectedSection)) {
-                                l.addMiddle(this.endLocation, this.selectedSection);
+                        if (head != null) {
+                            head.line.addHead(endLocation);
+                            clear();
+                            break;
+                        } else if (tail != null) {
+                            tail.line.addTail(endLocation);
+                            clear();
+                            break;
+                        } else {
+                            for (Line l : GameScreen.lineList) {
+                                if (l.hasSection(this.selectedSection)) {
+                                    l.addMiddle(this.endLocation, this.selectedSection);
+                                }
                             }
+                            break;
                         }
-                        break;
                     }
                 }
-
             }
         }
+
         this.isAddingTail = this.isAddingMiddle = this.isAddingHead = false;
         if (this.isAddingNewLine) {
             Colour.releaseColour(NLColour);
@@ -197,6 +208,16 @@ public class _Input_1 implements InputProcessor {
             this.selectedLine.addPreviewMiddle(new Vector2(mousePosition.x, mousePosition.y), this.selectedSection);
         } else if (this.isAddingNewLine) {
             this.NLSectionPreview = new SectionPreview(NLStartPlatform, new Vector2(mousePosition.x, mousePosition.y), NLColour);
+        } else if (this.isMovingMap) {
+            if (MMv == null) {
+                MMv = new Vector2(x, y);
+                return true;
+            }
+            MMv.sub(x, y);
+            camera.translate((float) (MMv.x * 0.07), (float) (MMv.y * -0.07));
+            // case moving map
+            MMv = new Vector2(x, y);
+            return true;
         }
         return true;
 
