@@ -1,4 +1,4 @@
-package nanometro.level;
+package nanometro.level.service;
 
 import com.badlogic.gdx.utils.Timer;
 import nanometro.gfx.Location;

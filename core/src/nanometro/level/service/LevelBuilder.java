@@ -1,4 +1,4 @@
-package nanometro.level;
+package nanometro.level.service;
 
 import nanometro.gfx.Location;
 
