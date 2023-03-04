@@ -20,7 +20,7 @@ public class London implements Level {
         GameScreen.colourList = List.of(c1, c2, c3);
 
         LevelLoader levelLoader = new LevelBuilder()
-                .setName("LevelLoader 1")
+                .setName("London")
                 .addLocation(28, 17, Location.LocationType.CIRCLE, 0)
                 .addLocation(36, 8, Location.LocationType.TRIANGLE, 0)
                 .addLocation(9, 7, Location.LocationType.SQUARE, 0)
