@@ -22,10 +22,10 @@ public class LevelBuilder {
     return this;
   }
 
-  public Level build() {
+  public LevelLoader build() {
     if (name == null) {
       throw new IllegalStateException("Name is not set");
     }
-    return new LevelImpl(name, restLocations, delayTimes);
+    return new LevelLoaderImpl(name, restLocations, delayTimes);
   }
 }

@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import nanometro.gfx.*;
-import nanometro.level.Level;
+import nanometro.level.LevelLoader;
 import nanometro.level.LevelBuilder;
 import nanometro.model.ModelServiceFactory;
 import nanometro.model.service.ModelService;
@@ -76,8 +76,8 @@ public class GameScreen implements Screen {
         Colour c4 = new Colour("#e0e0e0");
         colourList = List.of(c1, c2, c3);
 
-        Level level = new LevelBuilder()
-          .setName("Level 1")
+        LevelLoader levelLoader = new LevelBuilder()
+          .setName("LevelLoader 1")
           .addLocation(28, 17, Location.LocationType.CIRCLE, 0)
           .addLocation(36, 8, Location.LocationType.TRIANGLE, 0)
           .addLocation(9, 7, Location.LocationType.SQUARE, 0)
@@ -87,8 +87,8 @@ public class GameScreen implements Screen {
           .addLocation(9, 15, Location.LocationType.CIRCLE, 55)
           .addLocation(38, 35, Location.LocationType.TRIANGLE,70)
           .build();
-        level.start();
-        locationList = level.getLocations();
+        levelLoader.start();
+        locationList = levelLoader.getLocations();
 
         Timer.schedule(new Timer.Task() {
             private final Random random = new Random();

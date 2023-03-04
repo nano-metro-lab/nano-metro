@@ -4,7 +4,7 @@ import nanometro.gfx.Location;
 
 import java.util.List;
 
-public interface Level {
+public interface LevelLoader {
   String getName();
 
   List<Location> getLocations();
