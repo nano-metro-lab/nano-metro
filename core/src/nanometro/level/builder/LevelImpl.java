@@ -1,20 +1,23 @@
-package nanometro.level.service;
+package nanometro.level.builder;
 
 import com.badlogic.gdx.utils.Timer;
 import nanometro.gfx.Location;
+import nanometro.level.Level;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class LevelLoaderImpl implements LevelLoader {
+class LevelImpl implements Level {
   private final String name;
+  private final String description;
   private final List<Location> locations;
   private final List<Location> restLocations;
   private final List<Float> delayTimes;
 
-  LevelLoaderImpl(String name, List<Location> restLocations, List<Float> delayTimes) {
+  LevelImpl(String name, String description, List<Location> restLocations, List<Float> delayTimes) {
     this.name = name;
+    this.description = description;
     this.locations = new ArrayList<>(10);
     this.restLocations = new ArrayList<>(restLocations);
     this.delayTimes = new ArrayList<>(delayTimes);
@@ -23,6 +26,11 @@ class LevelLoaderImpl implements LevelLoader {
   @Override
   public String getName() {
     return name;
+  }
+
+  @Override
+  public String getDescription() {
+    return description;
   }
 
   @Override
