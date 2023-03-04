@@ -10,8 +10,9 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import static nanometro.GameScreen.*;
 
 public class Tip {
-    float radius = 1f;
-    float offset = 3f;
+    float radius = 0.8f;
+    float offsetX = -4f;
+    float offsetY = -2f;
     Line line;
     Body tipBody;
     Vector2 position;
@@ -20,7 +21,7 @@ public class Tip {
 
     public Tip(Line l, Station s) {
         this.line = l;
-        this.position = new Vector2(s.platform.x - offset, s.platform.y - offset);
+        this.position = new Vector2(s.platform.x + offsetX, s.platform.y + offsetY);
         this.station = s;
 
         BodyDef tipBodyDef = new BodyDef();
