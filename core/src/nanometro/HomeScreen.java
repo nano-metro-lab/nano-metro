@@ -16,6 +16,7 @@ package nanometro;
         import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class HomeScreen implements Screen {
+    private NanoMetro game;
 
     private Stage stage;
     private TextButton playButton, exitButton;
