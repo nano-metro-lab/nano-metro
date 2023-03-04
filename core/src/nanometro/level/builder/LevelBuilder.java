@@ -1,17 +1,24 @@
-package nanometro.level;
+package nanometro.level.builder;
 
 import nanometro.gfx.Location;
+import nanometro.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LevelBuilder {
   private String name;
+  private String description;
   private final List<Location> restLocations = new ArrayList<>();
   private final List<Float> delayTimes = new ArrayList<>();
 
   public LevelBuilder setName(String name) {
     this.name = name;
+    return this;
+  }
+
+  public LevelBuilder setDescription(String description) {
+    this.description = description;
     return this;
   }
 
@@ -26,6 +33,9 @@ public class LevelBuilder {
     if (name == null) {
       throw new IllegalStateException("Name is not set");
     }
-    return new LevelImpl(name, restLocations, delayTimes);
+    if (description == null) {
+      throw new IllegalStateException("Description is not set");
+    }
+    return new LevelImpl(name, description, restLocations, delayTimes);
   }
 }

@@ -11,6 +11,8 @@ public class NanoMetro extends Game {
     ShapeRenderer shape;
     Box2DDebugRenderer debugRenderer;
 
+    public static NanoMetro game;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -19,7 +21,9 @@ public class NanoMetro extends Game {
         debugBatch = new SpriteBatch();
         debugRenderer = new Box2DDebugRenderer();
 
-        this.setScreen(new GameScreen(this));
+        this.setScreen(new HomeScreen());
+//        this.setScreen(new GameScreen(this));
+        game = this; // quick fix, not sure good or bad.
     }
 
     public void render() {
