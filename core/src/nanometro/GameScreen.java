@@ -13,9 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import nanometro.gfx.*;
-import nanometro.level.service.Level;
-import nanometro.level.service.LevelLoader;
-import nanometro.level.service.LevelBuilder;
+import nanometro.level.LevelLoader;
 import nanometro.model.ModelServiceFactory;
 import nanometro.model.service.ModelService;
 
@@ -46,7 +44,7 @@ public class GameScreen implements Screen {
     private _Input_1 input1;
 
 
-    public GameScreen(NanoMetro game, Level level) {
+    public GameScreen(NanoMetro game, LevelLoader levelLoader) {
         this.game = game;
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
@@ -66,11 +64,11 @@ public class GameScreen implements Screen {
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(input1);
         Gdx.input.setInputProcessor(inputMultiplexer);
-        setup(level);
+        setup(levelLoader);
     }
 
-    private void setup(Level level) {
-        level.load();
+    private void setup(LevelLoader levelLoader) {
+        levelLoader.load();
 
         Timer.schedule(new Timer.Task() {
             private final Random random = new Random();
