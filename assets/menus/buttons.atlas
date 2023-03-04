@@ -1,0 +1,70 @@
+
+buttons.png
+size: 512, 512
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+font-export
+  rotate: false
+  xy: 1, 41
+  size: 142, 143
+  orig: 142, 143
+  offset: 0, 0
+  index: -1
+font-title-export
+  rotate: false
+  xy: 1, 389
+  size: 261, 265
+  orig: 261, 265
+  offset: 0, 0
+  index: -1
+  index: -1
+back1
+  rotate: false
+  xy: 1, 117
+  size: 59, 69
+  orig: 59, 69
+  offset: 0, 0
+  index: -1
+back2
+  rotate: false
+  xy: 1, 188
+  size: 70, 69
+  orig: 70, 69
+  offset: 0, 0
+  index: -1
+exit1
+  rotate: false
+  xy: 255, 423
+  size: 239, 80
+  orig: 239, 80
+  offset: 0, 0
+  index: -1
+exit2
+  rotate: false
+  xy: 1, 341
+  size: 251, 80
+  orig: 251, 80
+  offset: 0, 0
+  index: -1
+map
+  rotate: false
+  xy: 254, 1
+  size: 200, 420
+  orig: 200, 420
+  offset: 0, 0
+  index: -1
+play1
+  rotate: false
+  xy: 1, 259
+  size: 238, 80
+  orig: 238, 80
+  offset: 0, 0
+  index: -1
+play2
+  rotate: false
+  xy: 1, 423
+  size: 252, 80
+  orig: 252, 80
+  offset: 0, 0
+  index: -1

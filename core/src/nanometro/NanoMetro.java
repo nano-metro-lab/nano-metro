@@ -19,7 +19,8 @@ public class NanoMetro extends Game {
         debugBatch = new SpriteBatch();
         debugRenderer = new Box2DDebugRenderer();
 
-        this.setScreen(new GameScreen(this));
+        this.setScreen(new HomeScreen());
+//        this.setScreen(new GameScreen(this));
     }
 
     public void render() {
