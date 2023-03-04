@@ -33,4 +33,14 @@ public class London implements Level {
         levelLoader.start();
         GameScreen.locationList = levelLoader.getLocations();
     }
+
+    @Override
+    public String getName() {
+        return "London";
+    }
+
+    @Override
+    public String getDescription() {
+        return "A little-known city";
+    }
 }
