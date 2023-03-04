@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import nanometro.level.TestField;
+import nanometro.level.London;
 
 public class MapSelectionScreen implements Screen {
     private Stage stage;
@@ -41,7 +41,7 @@ public class MapSelectionScreen implements Screen {
                 stage.addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(new Runnable(){
                     @Override
                     public void run(){
-                        ((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen(NanoMetro.game, new TestField()));
+                        ((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen(NanoMetro.game, new London()));
                     }
                 })));
             }
