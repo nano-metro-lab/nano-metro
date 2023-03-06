@@ -124,6 +124,8 @@ public class Train {
                 removeLst.add(p);
                 if (p.getType() != thisLocation.type) {
                     thisLocation.passengerList.add(p);
+                } else {
+                    g6Sound.play();
                 }
             }
         }
@@ -140,6 +142,7 @@ public class Train {
               Location nextHop = nextHopsByType.get(p.getType());
               if (nextHop != null) {
                 this.passengerList.add(p);
+                popSound.play();
                 removeLst.add(p);
                 p.nextHop = nextHop;
               }
@@ -148,6 +151,7 @@ public class Train {
 //            System.out.println(lst);
               if (!lst.isEmpty()) {
                 this.passengerList.add(p);
+                popSound.play();
                 removeLst.add(p);
                 Location nextHop = lst.get(random.nextInt(lst.size()));
                 p.nextHop = nextHop;
