@@ -37,12 +37,7 @@ public class GameScreen implements Screen {
     public static SpriteBatch batch;
     public static ShapeRenderer shape;
     public static SpriteBatch debugBatch;
-    private Train testTrain;
-    private Section testSection;
-    private Line testLine;
-
     private _Input_1 input1;
-
 
     public GameScreen(NanoMetro game, LevelLoader levelLoader) {
         this.game = game;
@@ -65,6 +60,10 @@ public class GameScreen implements Screen {
 		inputMultiplexer.addProcessor(input1);
         Gdx.input.setInputProcessor(inputMultiplexer);
         setup(levelLoader);
+    }
+
+    private void audioSetup() {
+
     }
 
     private void setup(LevelLoader levelLoader) {
