@@ -24,12 +24,13 @@ public class London implements LevelLoader {
       .setDescription("A little-known city")
       .addLocation(28, 17, Location.LocationType.CIRCLE, 0)
       .addLocation(36, 8, Location.LocationType.TRIANGLE, 0)
-      .addLocation(9, 7, Location.LocationType.SQUARE, 0)
-      .addLocation(4, 35, Location.LocationType.CIRCLE, 20)
+      .addLocation(9, 7, Location.LocationType.SQUARE, 0.5f)
+      .addLocation(4, 35, Location.LocationType.CIRCLE, 1)
       .addLocation(12, 20, Location.LocationType.CIRCLE, 35)
       .addLocation(20, 20, Location.LocationType.CIRCLE, 42)
       .addLocation(9, 15, Location.LocationType.CIRCLE, 55)
-      .addLocation(38, 35, Location.LocationType.TRIANGLE, 70)
+      .addLocation(38, 35, Location.LocationType.TRIANGLE, 2)
+      .addLocation(50, 30, Location.LocationType.SQUARE, 30f)
       .build();
     level.start();
     GameScreen.locationList = level.getLocations();
