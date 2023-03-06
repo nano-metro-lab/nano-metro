@@ -147,11 +147,12 @@ public class GameScreen implements Screen {
     private float baseZoom;
     private final float zoomFullTime = 10;
     private float zoomTime = zoomFullTime;
+    public static float zoomOffset = 0;
     private void zoom() {
-        float startZoom = camera.zoom;
+        float startZoom = camera.zoom - zoomOffset;
 //        Vector3 v3 = new Vector3(maxDistance, 0, 0);
 //        camera.project(v3);
-        float endZoom = baseZoom + maxDistance * 0.005f;
+        float endZoom = baseZoom + maxDistance * 0.005f - zoomOffset;
         if (startZoom == endZoom) return;
         if (zoomTime == zoomFullTime) {
             this.bezierPath = new Bezier<>(new Vector2(0, startZoom),
@@ -163,6 +164,7 @@ public class GameScreen implements Screen {
             Vector2 v = new Vector2();
             this.bezierPath.valueAt(v, 1 - zoomTime / zoomFullTime);
             camera.zoom = v.y;
+            camera.zoom += zoomOffset;
             zoomTime -= Gdx.graphics.getDeltaTime();
         } else {
             zoomTime = zoomFullTime;

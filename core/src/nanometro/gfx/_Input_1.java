@@ -240,6 +240,7 @@ public class _Input_1 implements InputProcessor {
     }
 
     public boolean scrolled (float amountX, float amountY) {
+        zoomOffset += amountY * 0.06f;
         return false;
     }
 
