@@ -5,11 +5,12 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
@@ -41,7 +42,6 @@ public class GameScreen implements Screen {
     public static SpriteBatch batch;
     public static ShapeRenderer shape;
     public static SpriteBatch debugBatch;
-
     private _Input_1 input1;
     public static final EventSound popSound =
             new EventSound(Gdx.audio.newMusic(Gdx.files.internal("./audio/pop.mp3")), 1.5f);
@@ -53,9 +53,10 @@ public class GameScreen implements Screen {
             new EventSound(Gdx.audio.newMusic(Gdx.files.internal("./audio/click.wav")), 0.08f);
     public static final BackgroundMusic bgm =
             new BackgroundMusic(Gdx.audio.newMusic(Gdx.files.internal("./audio/lazy_afternoon.mp3")), 0.2f);
-            
     public static float maxDistance = 0;
     private Bezier<Vector2> bezierPath;
+    public static Texture backgroundImageTexture;
+    private Sprite backgroundImageSprite;
 
     public GameScreen(NanoMetro game, LevelLoader levelLoader) {
         this.game = game;
@@ -77,18 +78,22 @@ public class GameScreen implements Screen {
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(input1);
         Gdx.input.setInputProcessor(inputMultiplexer);
-        setup(levelLoader);
 
         bgm.play();
-        
+
         camera.zoom -= 0.165f;
         baseZoom = camera.zoom;
         camera.zoom -= 0.15f;
 
+        setup(levelLoader);
     }
 
     private void setup(LevelLoader levelLoader) {
         levelLoader.load();
+        // setup background img
+        backgroundImageSprite = new Sprite(backgroundImageTexture);
+        backgroundImageSprite.setSize(50, 50);
+
 
         Timer.schedule(new Timer.Task() {
             private final Random random = new Random();
@@ -140,6 +145,13 @@ public class GameScreen implements Screen {
         // tell the camera to update its matrices.
         camera.update();
         zoom();
+
+
+        batch.begin();
+        batch.setProjectionMatrix(camera.combined);
+        backgroundImageSprite.draw(batch);
+        batch.end();
+
         for (Line line : lineList) {
             line.draw();
         }
