@@ -3,13 +3,9 @@ package nanometro.gfx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import nanometro.model.service.ModelService;
 
 
-import java.util.List;
-
-import static nanometro.GameScreen.camera;
-import static nanometro.GameScreen.shape;
+import static nanometro.GameScreen.*;
 
 public class Passenger {
     private Location.LocationType type; // destination type
@@ -18,6 +14,7 @@ public class Passenger {
     public Passenger(Location.LocationType type) {
         this.type = type;
         this.location = null;
+        popSound.play();
     }
 
     public void draw(Vector2 qPosition) {

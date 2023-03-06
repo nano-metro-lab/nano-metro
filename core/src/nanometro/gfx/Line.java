@@ -1,14 +1,12 @@
 package nanometro.gfx;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import nanometro.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
+import static nanometro.GameScreen.clickSound;
 import static nanometro.GameScreen.modelService;
 
 public class Line {
@@ -64,6 +62,7 @@ public class Line {
     }
 
     private void _update() {
+        clickSound.play();
         this.headTip.destroy();
         this.tailTip.destroy();
         this.headTip = new Tip(this, this.stationList.get(0));

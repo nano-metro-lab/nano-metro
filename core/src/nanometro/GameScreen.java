@@ -14,6 +14,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import nanometro.audio.BackgroundMusic;
+import nanometro.audio.EventSound;
 import nanometro.gfx.*;
 import nanometro.level.LevelLoader;
 import nanometro.model.ModelServiceFactory;
@@ -39,13 +41,21 @@ public class GameScreen implements Screen {
     public static SpriteBatch batch;
     public static ShapeRenderer shape;
     public static SpriteBatch debugBatch;
-    private Train testTrain;
-    private Section testSection;
-    private Line testLine;
+
     private _Input_1 input1;
+    public static final EventSound popSound =
+            new EventSound(Gdx.audio.newMusic(Gdx.files.internal("./audio/pop.mp3")), 1.5f);
+    public static final EventSound f6Sound =
+            new EventSound(Gdx.audio.newMusic(Gdx.files.internal("./audio/f6.mp3")), 0.06f);
+    public static final EventSound g6Sound =
+            new EventSound(Gdx.audio.newMusic(Gdx.files.internal("./audio/g6.mp3")), 0.06f);
+    public static final EventSound clickSound =
+            new EventSound(Gdx.audio.newMusic(Gdx.files.internal("./audio/click.wav")), 0.08f);
+    public static final BackgroundMusic bgm =
+            new BackgroundMusic(Gdx.audio.newMusic(Gdx.files.internal("./audio/lazy_afternoon.mp3")), 0.2f);
+            
     public static float maxDistance = 0;
     private Bezier<Vector2> bezierPath;
-
 
     public GameScreen(NanoMetro game, LevelLoader levelLoader) {
         this.game = game;
@@ -68,9 +78,13 @@ public class GameScreen implements Screen {
 		inputMultiplexer.addProcessor(input1);
         Gdx.input.setInputProcessor(inputMultiplexer);
         setup(levelLoader);
+
+        bgm.play();
+        
         camera.zoom -= 0.165f;
         baseZoom = camera.zoom;
         camera.zoom -= 0.15f;
+
     }
 
     private void setup(LevelLoader levelLoader) {
@@ -78,7 +92,6 @@ public class GameScreen implements Screen {
 
         Timer.schedule(new Timer.Task() {
             private final Random random = new Random();
-
             @Override
             public void run() {
                 Timer.schedule(this, random.nextFloat(4));
