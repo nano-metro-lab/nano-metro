@@ -113,6 +113,24 @@ public class Location {
         // add location to model
         modelService.addStation(this, this.getType());
         this.initFinished = true;
+        // update farthest
+        update_farthest();
+    }
+
+    /**
+     * O(N) N: num of initialised locations
+     * simply because we have the starting point (0, 0)
+     * all other locations should be in the top right direction of that start point
+     */
+    private void update_farthest() {
+        for (Location l: locationList) {
+            if (l.initFinished) {
+                float dis = (float)Math.sqrt(Math.pow(l.position.x, 2) + Math.pow(l.position.y, 2));
+                if (dis > GameScreen.maxDistance) {
+                    maxDistance = dis;
+                }
+            }
+        }
     }
 
     public void drawDebug() {

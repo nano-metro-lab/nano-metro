@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
@@ -40,15 +42,16 @@ public class GameScreen implements Screen {
     private Train testTrain;
     private Section testSection;
     private Line testLine;
-
     private _Input_1 input1;
+    public static float maxDistance = 0;
+    private Bezier<Vector2> bezierPath;
 
 
     public GameScreen(NanoMetro game, LevelLoader levelLoader) {
         this.game = game;
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 40, 40);
+        camera.setToOrtho(false);
 		viewport = new ScreenViewport(camera);
 		viewport.setUnitsPerPixel(0.05f);
 		viewport.apply();
@@ -65,6 +68,8 @@ public class GameScreen implements Screen {
 		inputMultiplexer.addProcessor(input1);
         Gdx.input.setInputProcessor(inputMultiplexer);
         setup(levelLoader);
+        baseZoom = camera.zoom;
+        camera.zoom -= 0.15f;
     }
 
     private void setup(LevelLoader levelLoader) {
@@ -120,6 +125,7 @@ public class GameScreen implements Screen {
 //		batch.setProjectionMatrix(camera.combined);
         // tell the camera to update its matrices.
         camera.update();
+        zoom();
         for (Line line : lineList) {
             line.draw();
         }
@@ -135,9 +141,32 @@ public class GameScreen implements Screen {
             l.draw();
         }
         input1.draw();
-
         world.step(1/60f, 6, 2);
-//		System.out.println(testLine);
+    }
+
+    private float baseZoom;
+    private final float zoomFullTime = 10;
+    private float zoomTime = zoomFullTime;
+    public static float zoomOffset = 0;
+    private void zoom() {
+        float startZoom = camera.zoom - zoomOffset;
+        float endZoom = baseZoom + maxDistance * 0.005f - zoomOffset;
+        if (startZoom == endZoom) return;
+        if (zoomTime == zoomFullTime) {
+            this.bezierPath = new Bezier<>(new Vector2(0, startZoom),
+                    new Vector2(-2, startZoom),
+                    new Vector2(zoomTime, endZoom),
+                    new Vector2(zoomFullTime + 2, endZoom));
+            zoomTime -= Gdx.graphics.getDeltaTime();
+        } else if (zoomTime > 0) {
+            Vector2 v = new Vector2();
+            this.bezierPath.valueAt(v, 1 - zoomTime / zoomFullTime);
+            camera.zoom = v.y;
+            camera.zoom += zoomOffset;
+            zoomTime -= Gdx.graphics.getDeltaTime();
+        } else {
+            zoomTime = zoomFullTime;
+        }
 
     }
 

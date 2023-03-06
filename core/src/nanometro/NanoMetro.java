@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import nanometro.level.loaders.London;
 
 public class NanoMetro extends Game {
     SpriteBatch batch;
@@ -21,8 +22,8 @@ public class NanoMetro extends Game {
         debugBatch = new SpriteBatch();
         debugRenderer = new Box2DDebugRenderer();
 
-        this.setScreen(new HomeScreen());
-//        this.setScreen(new GameScreen(this));
+//        this.setScreen(new HomeScreen());
+        this.setScreen(new GameScreen(this, new London()));
         game = this; // quick fix, not sure good or bad.
     }
 
