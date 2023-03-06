@@ -69,7 +69,7 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);
         setup(levelLoader);
         baseZoom = camera.zoom;
-//        camera.zoom -= 0.15f;
+        camera.zoom -= 0.15f;
     }
 
     private void setup(LevelLoader levelLoader) {
@@ -150,8 +150,6 @@ public class GameScreen implements Screen {
     public static float zoomOffset = 0;
     private void zoom() {
         float startZoom = camera.zoom - zoomOffset;
-//        Vector3 v3 = new Vector3(maxDistance, 0, 0);
-//        camera.project(v3);
         float endZoom = baseZoom + maxDistance * 0.005f - zoomOffset;
         if (startZoom == endZoom) return;
         if (zoomTime == zoomFullTime) {
