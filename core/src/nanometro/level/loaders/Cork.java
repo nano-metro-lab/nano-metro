@@ -18,14 +18,14 @@ public class Cork implements LevelLoader {
     Colour c1 = new Colour("#fcce05");
     Colour c2 = new Colour("#1c4094");
     Colour c3 = new Colour("#f03024");
-    Colour c4 = new Colour("#e0e0e0");
-    GameScreen.colourList = List.of(c1, c2, c3);
+    Colour c4 = new Colour("#0ca1db");
+    GameScreen.colourList = List.of(c1, c2, c3, c4);
 
     GameScreen.backgroundImageTexture = new Texture(Gdx.files.internal("./levels/cork/map.png"));
 
     Level level = new LevelBuilder()
       .setName("Cork")
-      .setDescription("A little-known city")
+      .setDescription("Cork City")
       .addLocation(28, 21, Location.LocationType.CIRCLE, 0)
       .addLocation(36, 10, Location.LocationType.TRIANGLE, 1.5f)
       .addLocation(9, 7, Location.LocationType.SQUARE, 0.8f)
