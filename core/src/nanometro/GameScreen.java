@@ -68,6 +68,7 @@ public class GameScreen implements Screen {
 		inputMultiplexer.addProcessor(input1);
         Gdx.input.setInputProcessor(inputMultiplexer);
         setup(levelLoader);
+        camera.zoom -= 0.165f;
         baseZoom = camera.zoom;
         camera.zoom -= 0.15f;
     }
