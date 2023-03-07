@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import static nanometro.GameScreen.*;
 
@@ -147,8 +148,18 @@ public class _Input_1 implements InputProcessor {
                     } else if (this.isAddingMiddle) {
                         AMLocation = o;
                         if (!AMSection.line.getLocationList().contains(AMLocation)) {
-                            this.AMSection.line.pendingActionList.add(new Action(Action.ActionType.ADD_MIDDLE,
-                                    AMLocation, AMSection));
+                            Action a = new Action(Action.ActionType.ADD_MIDDLE);
+                            Vector2 v = AMLocation.requestPlatform();
+                            a.arg1 = AMLocation;
+                            a.arg2 = AMSection;
+                            a.arg3 = v;
+                            a.sp1 = new SectionPreview(AMSection.upper.platform, v, AMSection.line.colourObj);
+                            a.sp2 = new SectionPreview(v, AMSection.lower.platform, AMSection.line.colourObj);
+                            AMSection.line.pendingSectionPreviewList.add(a.sp1);
+                            AMSection.line.pendingSectionPreviewList.add(a.sp2);
+                            this.AMSection.line.pendingActionList.add(a);
+                        } else {
+                            AMSection.unfade();
                         }
                         this.isAddingMiddle = false;
                         break;

@@ -17,6 +17,7 @@ public class Line {
     public Colour colourObj;
     List<Line> lineList = GameScreen.lineList;
     List<Action> pendingActionList = new ArrayList<>();
+    List<SectionPreview> pendingSectionPreviewList = new ArrayList<>();
 
     public List<Location> getLocationList() {
         List<Location> l = new ArrayList<>();
@@ -89,9 +90,12 @@ public class Line {
                 Location l = (Location) a.arg1;
                 Section s = (Section) a.arg2;
                 if (!s.isOccupied) {
+                    l.releasePlatform((Vector2) a.arg3);
                     this.addMiddle(l, s);
                     s.unfade();
                     a.completed = true;
+                    this.pendingSectionPreviewList.remove(a.sp1);
+                    this.pendingSectionPreviewList.remove(a.sp2);
                     it.remove();
                 }
             }
@@ -103,6 +107,9 @@ public class Line {
             s.draw();
         }
         for (SectionPreview s : this.sectionPreviewList) {
+            s.draw();
+        }
+        for (SectionPreview s : this.pendingSectionPreviewList) {
             s.draw();
         }
         this.tailTip.draw();
