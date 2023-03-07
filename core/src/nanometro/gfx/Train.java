@@ -181,24 +181,27 @@ public class Train {
         if (line.getNextSection(section) == null && direction == Direction.DOWN) {
             thisLocation = section.lower.location;
             nextLocation = section.upper.location;
-            section = section;
+            section.isOccupied = false;
+            section = line.getTailSection();
             direction = Direction.UP;
             progress = 0f;
         } else if (line.getPreviousSection(section) == null && direction == Direction.UP) {
             thisLocation = section.upper.location;
             nextLocation = section.lower.location;
-            section = section;
+            section.isOccupied = false;
+            section = line.getHeadSection();
             direction = Direction.DOWN;
             progress = 0f;
         } else {
             if (direction == Direction.DOWN) {
                 thisLocation = section.lower.location;
+                section.isOccupied = false;
                 section = line.getNextSection(section);
                 nextLocation = section.lower.location;
                 progress = 0f;
             } else {
                 thisLocation = section.upper.location;
-
+                section.isOccupied = false;
                 section = line.getPreviousSection(section);
                 nextLocation = section.upper.location;
                 progress = 0f;
@@ -224,6 +227,7 @@ public class Train {
                 update();
             }
         } else {
+            section.isOccupied = true;
             float sectionTimeLimit = stdTimeLimit * section.path.approxLength();
 
             runTime += Gdx.graphics.getDeltaTime();

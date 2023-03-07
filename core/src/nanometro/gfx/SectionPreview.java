@@ -17,6 +17,7 @@ public class SectionPreview {
     Boxy path;
     List<Vector2> sampleList = new ArrayList<>();
     Colour colourObj;
+    Action pendingAction = null;
 
     public SectionPreview(Vector2 upper, Vector2 lower, Colour colourObj) {
         this.path = new Boxy(upper, lower);
@@ -48,6 +49,5 @@ public class SectionPreview {
     }
 
     public void destroy() {
-//        this.line.sectionPreviewList.remove(this);
     }
 }
