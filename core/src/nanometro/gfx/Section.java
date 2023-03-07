@@ -19,6 +19,7 @@ public class Section {
     Boxy path;
     List<Vector2> sampleList = new ArrayList<>();
     List<Sensor> sensorList = new ArrayList<>();
+    boolean isOccupied = false;
 
     public Section(Line line, Station upper, Station lower) {
         this.line = line;

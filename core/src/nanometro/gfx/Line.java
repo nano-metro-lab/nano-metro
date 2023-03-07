@@ -3,8 +3,7 @@ package nanometro.gfx;
 import com.badlogic.gdx.math.Vector2;
 import nanometro.GameScreen;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static nanometro.GameScreen.clickSound;
 import static nanometro.GameScreen.modelService;
@@ -17,6 +16,7 @@ public class Line {
     public String colour;
     public Colour colourObj;
     List<Line> lineList = GameScreen.lineList;
+    List<Action> pendingActionList = new ArrayList<>();
 
     public List<Location> getLocationList() {
         List<Location> l = new ArrayList<>();
@@ -72,7 +72,8 @@ public class Line {
 
     public Section getSection(Location locationA, Location locationB) {
         for (Section s : sectionList) {
-            if ((s.upper.location == locationA && s.lower.location == locationB) || (s.upper.location == locationB && s.lower.location == locationA)) {
+            if ((s.upper.location == locationA && s.lower.location == locationB) ||
+                    (s.upper.location == locationB && s.lower.location == locationA)) {
                 return s;
             }
         }
@@ -80,17 +81,30 @@ public class Line {
     }
 
     public void draw() {
-//        Gdx.gl.glEnable(GL20.GL_BLEND);
-//        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-//        Gdx.gl.glLineWidth(25);
-//        if (stationList.size() < 2) return;
+        // pending actions
+        Iterator<Action> it = pendingActionList.iterator();
+        while(it.hasNext()) {
+            Action a = it.next();
+            if (a.type == Action.ActionType.ADD_MIDDLE) {
+                Location l = (Location) a.arg1;
+                Section s = (Section) a.arg2;
+                if (!s.isOccupied) {
+                    this.addMiddle(l, s);
+                    s.unfade();
+                    a.completed = true;
+                    it.remove();
+                }
+            }
+        }
+
+
+        // render
         for (Section s : this.sectionList) {
             s.draw();
         }
         for (SectionPreview s : this.sectionPreviewList) {
             s.draw();
         }
-//        Gdx.gl.glDisable(GL20.GL_BLEND);
         this.tailTip.draw();
         this.headTip.draw();
     }
@@ -100,9 +114,6 @@ public class Line {
         Station f = stationList.get(stationList.size() - 1);
         stationList.add(s);
         sectionList.add(new Section(this, f, s));
-//        modelService.updateLine(this, getLocationList());
-//        this.headTip = new Tip(this, this.stationList.get(0));
-//        this.tailTip = new Tip(this, this.stationList.get(this.stationList.size() - 1));
         this._update();
 
     }

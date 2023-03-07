@@ -3,10 +3,8 @@ package nanometro.gfx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
-import nanometro.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,6 @@ public class _Input_1 implements InputProcessor {
 //    public _Input_1(Body mouseBox) {
 //        super();
 //    }
-
     private boolean isAddingTail = false;
     private boolean isAddingMiddle = false;
     private boolean isAddingHead = false;
@@ -150,9 +147,9 @@ public class _Input_1 implements InputProcessor {
                     } else if (this.isAddingMiddle) {
                         AMLocation = o;
                         if (!AMSection.line.getLocationList().contains(AMLocation)) {
-                            AMSection.line.addMiddle(AMLocation, AMSection);
+                            this.AMSection.line.pendingActionList.add(new Action(Action.ActionType.ADD_MIDDLE,
+                                    AMLocation, AMSection));
                         }
-                        this.AMSection.unfade();
                         this.isAddingMiddle = false;
                         break;
                     }
