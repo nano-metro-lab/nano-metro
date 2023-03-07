@@ -30,6 +30,15 @@ public class Colour {
         colourList.add(this);
     }
 
+    public static boolean hasRemain() {
+        for (Colour c: colourList) {
+            if (!c.occupied) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static Colour requestColour() {
         for (Colour c: colourList) {
             if (!c.occupied) {

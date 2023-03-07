@@ -90,6 +90,7 @@ public class _Input_1 implements InputProcessor {
                     this.AMSection = o.section;
                     break;
                 } else if (f.getBody().getUserData() instanceof Location){
+                    if (!Colour.hasRemain()) break;
                     this.isAddingNewLine = true;
                     Location o = (Location) f.getBody().getUserData();
                     NLStart = o;

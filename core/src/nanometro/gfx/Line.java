@@ -83,17 +83,16 @@ public class Line {
 
 
     public Section getTailSection() {
-        draw();
+        processPendingActions();
         return this.sectionList.get(this.sectionList.size() - 1);
     }
 
     public Section getHeadSection() {
-        draw();
+        processPendingActions();
         return this.sectionList.get(0);
     }
 
-    public void draw() {
-        // pending actions
+    private void processPendingActions() {
         Iterator<Action> it = pendingActionList.iterator();
         while(it.hasNext()) {
             Action a = it.next();
@@ -111,9 +110,11 @@ public class Line {
                 }
             }
         }
+    }
 
-
-        // render
+    public void draw() {
+        processPendingActions();
+        // render start
         for (Section s : this.sectionList) {
             s.draw();
         }

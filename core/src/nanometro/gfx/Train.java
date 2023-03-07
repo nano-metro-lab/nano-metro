@@ -111,10 +111,6 @@ public class Train {
 
     }
 
-    public void set() {
-
-    }
-
     public void update() {
         List<Passenger> removeLst = new ArrayList<>();
 //        System.out.println(passengerList);
@@ -168,15 +164,6 @@ public class Train {
     }
 
     public void dumbController() {
-//        Timer.schedule(new Timer.Task() {
-//            @Override
-//            public void run() {
-//                startTrain();
-//            }
-//        }, 3);
-//
-//        stopTrain();
-
         runTime = 0f;
         if (line.getNextSection(section) == null && direction == Direction.DOWN) {
             thisLocation = section.lower.location;
