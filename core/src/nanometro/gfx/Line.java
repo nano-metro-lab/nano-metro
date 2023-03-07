@@ -112,12 +112,6 @@ public class Line {
         sectionPreviewList.add(new SectionPreview(f, v, this.colourObj));
     }
 
-    public void removeLastPreview() {
-        if (sectionPreviewList.size() > 0) {
-            sectionPreviewList.remove(sectionPreviewList.size() - 1);
-        }
-    }
-
     public void addPreviewHead(Vector2 v) {
         Vector2 f = stationList.get(0).getPlatform();
         sectionPreviewList.add(new SectionPreview(v, f, this.colourObj));

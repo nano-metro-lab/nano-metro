@@ -64,11 +64,6 @@ public class Section {
         }
     }
 
-//    public void update() {
-//        this.generateSamples();
-//        this.generateSensors();
-//    }
-
     public void destroy() {
         // destroy sensors
         for (Sensor i : sensorList) {

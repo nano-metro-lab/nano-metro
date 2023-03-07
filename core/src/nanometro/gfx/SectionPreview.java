@@ -48,6 +48,5 @@ public class SectionPreview {
     }
 
     public void destroy() {
-//        this.line.sectionPreviewList.remove(this);
     }
 }

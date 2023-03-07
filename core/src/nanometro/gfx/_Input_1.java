@@ -15,10 +15,15 @@ import static nanometro.GameScreen.*;
 
 public class _Input_1 implements InputProcessor {
 
-    public _Input_1(Body mouseBox) {
-        super();
-        this.mouseBox = mouseBox;
-    }
+//    public _Input_1(Body mouseBox) {
+//        super();
+//    }
+
+    private boolean isAddingTail = false;
+    private boolean isAddingMiddle = false;
+    private boolean isAddingHead = false;
+    private boolean isMovingMap = false;
+    private boolean isAddingNewLine = false;
 
     // Add Tail
     private Line ATLine = null;
@@ -32,30 +37,15 @@ public class _Input_1 implements InputProcessor {
     private Section AMSection = null;
     private Location AMLocation = null;
 
-
-    private boolean isAddingTail = false;
-    private boolean isAddingMiddle = false;
-    private boolean isAddingHead = false;
-    private boolean isMovingMap = false;
-//    private Line selectedLine = null;
-
-    // case creating new line
-    private boolean isAddingNewLine = false;
+    // Add New Line
     private SectionPreview NLSectionPreview;
     private Colour NLColour;
     private Location NLStart;
     private Vector2 NLStartPlatform;
     private Location NLEnd;
 
-    // case Moving Map
+    // Move Map
     private Vector2 MMv;
-
-    public _Input_1() {
-
-    }
-
-    private Body mouseBox;
-
 
     public boolean keyDown (int keycode) {
         return false;
@@ -179,15 +169,15 @@ public class _Input_1 implements InputProcessor {
             this.NLSectionPreview = null;
             this.isAddingNewLine = false;
         }
-        this.isMovingMap = false;
-        this.isAddingTail = this.isAddingHead = this.isAddingMiddle = false;
-
-        if (AMSection != null) {
+        if (isAddingMiddle) {
             AMSection.unfade();
         }
         for (Line l: lineList) {
             l.sectionPreviewList.clear();
         }
+        this.NLSectionPreview = null;
+        this.isMovingMap = false;
+        this.isAddingTail = this.isAddingHead = this.isAddingMiddle = false;
     }
 
     public boolean touchDragged (int x, int y, int pointer) {
@@ -198,7 +188,6 @@ public class _Input_1 implements InputProcessor {
         } else if (this.isAddingTail) {
             ATLine.sectionPreviewList.clear();
         }
-
 
         Vector3 mousePosition = new Vector3(x, y, 0);
         camera.unproject(mousePosition);
@@ -233,7 +222,6 @@ public class _Input_1 implements InputProcessor {
     }
 
     public boolean mouseMoved (int x, int y) {
-
         return false;
     }
 
