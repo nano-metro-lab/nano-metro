@@ -181,13 +181,15 @@ public class Train {
         if (line.getNextSection(section) == null && direction == Direction.DOWN) {
             thisLocation = section.lower.location;
             nextLocation = section.upper.location;
-            section = section;
+            section.isOccupied = false;
+            section = line.getTailSection();
             direction = Direction.UP;
             progress = 0f;
         } else if (line.getPreviousSection(section) == null && direction == Direction.UP) {
             thisLocation = section.upper.location;
             nextLocation = section.lower.location;
-            section = section;
+            section.isOccupied = false;
+            section = line.getHeadSection();
             direction = Direction.DOWN;
             progress = 0f;
         } else {
@@ -195,14 +197,12 @@ public class Train {
                 thisLocation = section.lower.location;
                 section.isOccupied = false;
                 section = line.getNextSection(section);
-                section.isOccupied = true;
                 nextLocation = section.lower.location;
                 progress = 0f;
             } else {
                 thisLocation = section.upper.location;
                 section.isOccupied = false;
                 section = line.getPreviousSection(section);
-                section.isOccupied = true;
                 nextLocation = section.upper.location;
                 progress = 0f;
             }
