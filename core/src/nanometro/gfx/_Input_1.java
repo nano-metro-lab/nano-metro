@@ -20,17 +20,24 @@ public class _Input_1 implements InputProcessor {
         this.mouseBox = mouseBox;
     }
 
-    private Section selectedSection = null;
-    private Location endLocation = null;
+    // Add Tail
+    private Line ATLine = null;
+    private Location ATLocation = null;
 
-    private Tip head = null;
-    private Tip tail = null;
+    // Add Head
+    private Line AHLine = null;
+    private Location AHLocation = null;
+
+    // Add Middle
+    private Section AMSection = null;
+    private Location AMLocation = null;
+
 
     private boolean isAddingTail = false;
     private boolean isAddingMiddle = false;
     private boolean isAddingHead = false;
     private boolean isMovingMap = false;
-    private Line selectedLine = null;
+//    private Line selectedLine = null;
 
     // case creating new line
     private boolean isAddingNewLine = false;
@@ -80,22 +87,19 @@ public class _Input_1 implements InputProcessor {
             for (Fixture f : fixtureList) {
                 if (f.getBody().getUserData() instanceof Tip) {
                     Tip t = (Tip) f.getBody().getUserData();
-                    this.selectedLine = t.line;
                     if (t.station == t.line.stationList.get(0)) {
-                        // head tip
                         this.isAddingHead = true;
-                        head = t;
+                        this.AHLine = t.line;
                         break;
                     } else {
                         this.isAddingTail = true;
-                        tail = t;
+                        this.ATLine = t.line;
                         break;
                     }
                 } else if (f.getBody().getUserData() instanceof Sensor) {
-                    Sensor o = (Sensor) f.getBody().getUserData();
-                    this.selectedLine = o.section.line;
-                    this.selectedSection = o.section;
                     this.isAddingMiddle = true;
+                    Sensor o = (Sensor) f.getBody().getUserData();
+                    this.AMSection = o.section;
                     break;
                 } else if (f.getBody().getUserData() instanceof Location){
                     this.isAddingNewLine = true;
@@ -121,10 +125,10 @@ public class _Input_1 implements InputProcessor {
                 return true;
             }
         }, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y);
-        if (fixtureList.isEmpty()) {
-            this.isMovingMap = false;
+        if (fixtureList.isEmpty()) { // case if released on nowhere
             Vector2 MMoffset = MMv;
             MMv = null;
+            cleanUp();
         } else {
             for (Fixture f : fixtureList) {
                 if (f.getBody().getUserData() instanceof Location) {
@@ -137,82 +141,76 @@ public class _Input_1 implements InputProcessor {
                             lineList.add(new Line(NLStart, NLEnd));
                         }
                         this.isAddingNewLine = false;
+                        break;
 
-                    } else if (this.isAddingTail || this.isAddingHead) {
-                        this.endLocation = o;
-                        if (head != null) {
-                            if (head.line.stationList.get(0).location != endLocation) {
-                                head.line.addHead(endLocation);
-                            }
-                            clear();
-                            break;
-                        } else if (tail != null) {
-                            if (tail.line.stationList.get(tail.line.stationList.size()-1).location != endLocation) {
-                                tail.line.addTail(endLocation);
-                            }
-                            clear();
-                            break;
-                        } else {
-                            for (Line l : GameScreen.lineList) {
-                                if (l.hasSection(this.selectedSection)) {
-                                    l.addMiddle(this.endLocation, this.selectedSection);
-                                }
-                            }
-                            break;
+                    } else if (this.isAddingTail) {
+                        ATLocation = o;
+                        if (ATLine.stationList.get(ATLine.stationList.size()-1).location != ATLocation) {
+                            ATLine.addTail(ATLocation);
                         }
+                        this.isAddingTail = false;
+                        break;
+                    } else if (this.isAddingHead) {
+                        AHLocation = o;
+                        if (AHLine.stationList.get(0).location != AHLocation) {
+                            AHLine.addHead(AHLocation);
+                        }
+                        this.isAddingHead = false;
+                        break;
+                    } else if (this.isAddingMiddle) {
+                        AMLocation = o;
+                        if (!AMSection.line.getLocationList().contains(AMLocation)) {
+                            AMSection.line.addMiddle(AMLocation, AMSection);
+                        }
+                        this.AMSection.unfade();
+                        this.isAddingMiddle = false;
+                        break;
                     }
                 }
             }
-        }
-
-        this.isAddingTail = this.isAddingMiddle = this.isAddingHead = false;
-        if (this.isAddingNewLine) {
-            Colour.releaseColour(NLColour);
-            NLColour = null;
-            isAddingNewLine = false;
-        }
-        // clear all previews
-        if (this.selectedLine != null) {
-            while (!this.selectedLine.sectionPreviewList.isEmpty()) {
-                this.selectedLine.removeLastPreview();
-            }
-        }
-        this.selectedLine = null;
-        // recover section colour
-        if (this.selectedSection != null) {
-            this.selectedSection.unfade();
-            this.selectedSection = null;
+            cleanUp();
         }
         return true;
     }
 
-    private void clear() {
-        this.head = null;
-        this.tail = null;
+    private void cleanUp () {
+        if (this.isAddingNewLine) {
+            Colour.releaseColour(NLColour);
+            this.NLSectionPreview = null;
+            this.isAddingNewLine = false;
+        }
+        this.isMovingMap = false;
+        this.isAddingTail = this.isAddingHead = this.isAddingMiddle = false;
+
+        if (AMSection != null) {
+            AMSection.unfade();
+        }
+        for (Line l: lineList) {
+            l.sectionPreviewList.clear();
+        }
     }
 
     public boolean touchDragged (int x, int y, int pointer) {
-        if (this.selectedLine != null)  {
-            // clean up
-            Line l = this.selectedLine;
-            if (this.isAddingHead || this.isAddingTail) {
-                l.removeLastPreview();
-            } else if (this.isAddingMiddle) {
-                l.removeLastPreview();
-                l.removeLastPreview();
-            }
+        if (this.isAddingHead) {
+            AHLine.sectionPreviewList.clear();
+        } else if (this.isAddingMiddle) {
+            AMSection.line.sectionPreviewList.clear();
+        } else if (this.isAddingTail) {
+            ATLine.sectionPreviewList.clear();
         }
+
+
         Vector3 mousePosition = new Vector3(x, y, 0);
         camera.unproject(mousePosition);
 
         if (this.isAddingTail) {
-            this.selectedLine.addPreviewTail(new Vector2(mousePosition.x, mousePosition.y));
+            ATLine.addPreviewTail(new Vector2(mousePosition.x, mousePosition.y));
         } else if (this.isAddingHead) {
-            this.selectedLine.addPreviewHead(new Vector2(mousePosition.x, mousePosition.y));
+            AHLine.addPreviewHead(new Vector2(mousePosition.x, mousePosition.y));
         } else if (this.isAddingMiddle) {
-            this.selectedLine.addPreviewMiddle(new Vector2(mousePosition.x, mousePosition.y), this.selectedSection);
+            AMSection.line.addPreviewMiddle(new Vector2(mousePosition.x, mousePosition.y), this.AMSection);
         } else if (this.isAddingNewLine) {
-            this.NLSectionPreview = new SectionPreview(NLStartPlatform, new Vector2(mousePosition.x, mousePosition.y), NLColour);
+            NLSectionPreview = new SectionPreview(NLStartPlatform, new Vector2(mousePosition.x, mousePosition.y), NLColour);
         } else if (this.isMovingMap) {
             if (MMv == null) {
                 MMv = new Vector2(x, y);
