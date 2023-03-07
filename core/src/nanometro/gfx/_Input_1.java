@@ -133,14 +133,14 @@ public class _Input_1 implements InputProcessor {
 
                     } else if (this.isAddingTail) {
                         ATLocation = o;
-                        if (ATLine.stationList.get(ATLine.stationList.size()-1).location != ATLocation) {
+                        if (!ATLine.getLocationList().contains(ATLocation)) {
                             ATLine.addTail(ATLocation);
                         }
                         this.isAddingTail = false;
                         break;
                     } else if (this.isAddingHead) {
                         AHLocation = o;
-                        if (AHLine.stationList.get(0).location != AHLocation) {
+                        if (!AHLine.getLocationList().contains(AHLocation)) {
                             AHLine.addHead(AHLocation);
                         }
                         this.isAddingHead = false;
