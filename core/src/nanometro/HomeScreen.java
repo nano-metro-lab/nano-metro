@@ -33,7 +33,7 @@ public class HomeScreen implements Screen {
 
         table = new Table();
         table.setBounds(-135,140, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/2);
-        background = new Texture("./menus/background.png");
+        background = new Texture("./menus/background2.png");
         playButton = new TextButton("", skin, "play");
         playButton.addListener(new ClickListener(){
 
@@ -73,7 +73,8 @@ public class HomeScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.getBatch().begin();
-        stage.getBatch().draw(background, 0, 0);
+//        stage.getBatch().draw(background, 0, 0);
+        stage.getBatch().draw(background,0, 0, 900, 900);
         stage.getBatch().end();
         stage.draw();
     }

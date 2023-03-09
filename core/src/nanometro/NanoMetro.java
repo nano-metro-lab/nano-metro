@@ -22,9 +22,9 @@ public class NanoMetro extends Game {
         debugBatch = new SpriteBatch();
         debugRenderer = new Box2DDebugRenderer();
 
-//        this.setScreen(new HomeScreen());
-        this.setScreen(new GameScreen(this, new Cork()));
-        game = this; // quick fix, not sure good or bad.
+        this.setScreen(new HomeScreen());
+//        this.setScreen(new GameScreen(this, new Cork()));
+        game = this;
     }
 
     public void render() {
