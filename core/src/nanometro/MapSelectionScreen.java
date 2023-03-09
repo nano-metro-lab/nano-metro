@@ -54,7 +54,7 @@ public class MapSelectionScreen implements Screen {
                 stage.addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(new Runnable(){
                     @Override
                     public void run(){
-                        ((Game) Gdx.app.getApplicationListener()).setScreen(new HomeScreen());
+                        ((Game) Gdx.app.getApplicationListener()).setScreen(new HomeScreen(true));
                     }
                 })));
             }

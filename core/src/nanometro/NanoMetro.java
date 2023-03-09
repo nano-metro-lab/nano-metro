@@ -1,6 +1,8 @@
 package nanometro;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -21,7 +23,7 @@ public class NanoMetro extends Game {
         debugBatch = new SpriteBatch();
         debugRenderer = new Box2DDebugRenderer();
 
-        this.setScreen(new HomeScreen());
+        this.setScreen(new HomeScreen(false));
 //        this.setScreen(new GameScreen(this));
         game = this; // quick fix, not sure good or bad.
     }

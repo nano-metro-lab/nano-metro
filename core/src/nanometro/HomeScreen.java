@@ -6,6 +6,7 @@ package nanometro;
         import com.badlogic.gdx.audio.Sound;
         import com.badlogic.gdx.graphics.GL20;
         import com.badlogic.gdx.graphics.Texture;
+        import com.badlogic.gdx.scenes.scene2d.Actor;
         import com.badlogic.gdx.scenes.scene2d.InputEvent;
         import com.badlogic.gdx.scenes.scene2d.Stage;
         import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -17,20 +18,27 @@ package nanometro;
 
 public class HomeScreen implements Screen {
     private NanoMetro game;
-
     private Stage stage;
     private TextButton playButton, exitButton;
     private Texture background;
     private Table table;
     private Skin skin;
     private Sound sound;
+    private long soundPlay;
+    private boolean soundPlayed = false;
 
-
+    public HomeScreen(boolean back) {
+        soundPlayed = back;
+    }
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("./menus/buttons.json"));
-
+        sound = Gdx.audio.newSound(Gdx.files.internal("./menus/click.wav"));
+        if (soundPlayed == false) {
+            soundPlay = sound.play(1.0f);
+            this.soundPlayed = true;
+        }
         table = new Table();
         table.setBounds(200,100, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         background = new Texture("./menus/background.png");
@@ -39,7 +47,9 @@ public class HomeScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                soundPlay = sound.play(1.0f);
+                sound.setPitch(soundPlay, 2);
+                sound.setLooping(soundPlay, false);
                 stage.addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(new Runnable(){
                     @Override
                     public void run(){
@@ -47,13 +57,24 @@ public class HomeScreen implements Screen {
                     }
                 })));
             }
+
+
+
         });
         exitButton = new TextButton("", skin, "exit");
 
         exitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                soundPlay = sound.play(1.0f);
+                sound.setPitch(soundPlay, 2);
+                sound.setLooping(soundPlay, false);
+                stage.addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(new Runnable(){
+                    @Override
+                    public void run(){
+                        Gdx.app.exit();
+                    }
+                })));
             }
         });
         table.add(playButton).expandY();
@@ -68,7 +89,6 @@ public class HomeScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime());
@@ -77,7 +97,6 @@ public class HomeScreen implements Screen {
         stage.getBatch().end();
         stage.draw();
     }
-
     @Override
     public void resize(int width, int height) {
 
