@@ -71,7 +71,7 @@ public class MapSelectionScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.getBatch().begin();
-        stage.getBatch().draw(background, 0, 0);
+        stage.getBatch().draw(background, 0, 0, 900, 900);
         stage.getBatch().draw(bar, 0, 475);
         stage.getBatch().end();
         stage.draw();
