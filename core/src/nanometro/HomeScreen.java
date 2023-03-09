@@ -37,7 +37,7 @@ public class HomeScreen implements Screen {
 
         table = new Table();
         table.setBounds(-135,140, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/2);
-        background = new Texture("./menus/background2.png");
+        background = new Texture("./menus/background.png");
         playButton = new TextButton("", skin, "play");
         playButton.addListener(new ClickListener(){
 
