@@ -14,6 +14,7 @@ package nanometro;
         import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
         import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
         import com.badlogic.gdx.utils.viewport.ScreenViewport;
+        import nanometro.audio.EventSound;
 
 public class HomeScreen implements Screen {
     private NanoMetro game;
@@ -25,6 +26,9 @@ public class HomeScreen implements Screen {
     private Skin skin;
     private Sound sound;
 
+    public static final EventSound clickSound =
+            new EventSound(Gdx.audio.newMusic(Gdx.files.internal("./audio/click.wav")), 0.08f);
+
 
     @Override
     public void show() {
@@ -33,12 +37,13 @@ public class HomeScreen implements Screen {
 
         table = new Table();
         table.setBounds(-135,140, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/2);
-        background = new Texture("./menus/background2.png");
+        background = new Texture("./menus/background.png");
         playButton = new TextButton("", skin, "play");
         playButton.addListener(new ClickListener(){
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
 
                 stage.addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(new Runnable(){
                     @Override
@@ -53,6 +58,7 @@ public class HomeScreen implements Screen {
         exitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 Gdx.app.exit();
             }
         });
