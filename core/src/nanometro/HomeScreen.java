@@ -27,8 +27,8 @@ public class HomeScreen implements Screen {
     private long soundPlay;
     private boolean soundPlayed = false;
 
-    public HomeScreen(boolean back) {
-        soundPlayed = back;
+    public HomeScreen(boolean swapScreen) {
+        soundPlayed = swapScreen;
     }
     @Override
     public void show() {
@@ -53,7 +53,7 @@ public class HomeScreen implements Screen {
                 stage.addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(new Runnable(){
                     @Override
                     public void run(){
-                        ((Game) Gdx.app.getApplicationListener()).setScreen(new MapSelectionScreen());
+                        ((Game) Gdx.app.getApplicationListener()).setScreen(new MapSelectionScreen(true));
                     }
                 })));
             }

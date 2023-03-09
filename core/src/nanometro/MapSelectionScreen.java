@@ -24,20 +24,32 @@ public class MapSelectionScreen implements Screen {
     private Skin skin;
     private Table table;
     private Sound sound;
+    private long soundPlay;
+    private boolean soundPlayed = false;
+    public MapSelectionScreen(boolean swapScreen) {
+        soundPlayed = swapScreen;
+    }
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
 
         background = new Texture("./menus/MapSelectionBackground.png");
         bar = new Texture("./menus/bar.png");
-
+        sound = Gdx.audio.newSound(Gdx.files.internal("./menus/click.wav"));
         skin = new Skin(Gdx.files.internal("./menus/buttons.json"));
+        if (soundPlayed == false) {
+            soundPlay = sound.play(1.0f);
+            this.soundPlayed = true;
+        }
         table = new Table();
         table.setBounds(0,10, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         uccMapButton = new TextButton("", skin, "map");
         uccMapButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                soundPlay = sound.play(1.0f);
+                sound.setPitch(soundPlay, 2);
+                sound.setLooping(soundPlay, false);
                 stage.addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(new Runnable(){
                     @Override
                     public void run(){
@@ -51,6 +63,9 @@ public class MapSelectionScreen implements Screen {
         back.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                soundPlay = sound.play(1.0f);
+                sound.setPitch(soundPlay, 2);
+                sound.setLooping(soundPlay, false);
                 stage.addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(new Runnable(){
                     @Override
                     public void run(){
