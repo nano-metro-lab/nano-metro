@@ -72,7 +72,7 @@ public class MapSelectionScreen implements Screen {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0);
-        stage.getBatch().draw(bar, 0, 475);
+        stage.getBatch().draw(bar, 0, 600);
         stage.getBatch().end();
         stage.draw();
 

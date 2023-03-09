@@ -1,6 +1,6 @@
 
 buttons.png
-size: 512, 512
+size: 1024, 1024
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
@@ -21,49 +21,49 @@ font-title-export
   index: -1
 back1
   rotate: false
-  xy: 1, 117
+  xy: 253, 528
   size: 59, 69
   orig: 59, 69
   offset: 0, 0
   index: -1
 back2
   rotate: false
-  xy: 1, 188
+  xy: 1, 1
   size: 70, 69
   orig: 70, 69
   offset: 0, 0
   index: -1
 exit1
   rotate: false
-  xy: 255, 423
+  xy: 255, 681
   size: 239, 80
   orig: 239, 80
   offset: 0, 0
   index: -1
 exit2
   rotate: false
-  xy: 1, 341
+  xy: 1, 599
   size: 251, 80
   orig: 251, 80
   offset: 0, 0
   index: -1
 map
   rotate: false
-  xy: 254, 1
-  size: 200, 420
-  orig: 200, 420
+  xy: 1, 72
+  size: 250, 525
+  orig: 250, 525
   offset: 0, 0
   index: -1
 play1
   rotate: false
-  xy: 1, 259
+  xy: 254, 599
   size: 238, 80
   orig: 238, 80
   offset: 0, 0
   index: -1
 play2
   rotate: false
-  xy: 1, 423
+  xy: 1, 681
   size: 252, 80
   orig: 252, 80
   offset: 0, 0
