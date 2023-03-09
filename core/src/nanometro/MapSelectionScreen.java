@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import nanometro.audio.EventSound;
 import nanometro.level.loaders.Cork;
 
 public class MapSelectionScreen implements Screen {
@@ -24,6 +25,8 @@ public class MapSelectionScreen implements Screen {
     private Skin skin;
     private Table table;
     private Sound sound;
+    public static final EventSound clickSound =
+            new EventSound(Gdx.audio.newMusic(Gdx.files.internal("./audio/click.wav")), 0.08f);
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
@@ -38,6 +41,7 @@ public class MapSelectionScreen implements Screen {
         uccMapButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 stage.addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(new Runnable(){
                     @Override
                     public void run(){
@@ -51,6 +55,7 @@ public class MapSelectionScreen implements Screen {
         back.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 stage.addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(new Runnable(){
                     @Override
                     public void run(){
