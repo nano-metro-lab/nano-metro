@@ -32,11 +32,10 @@ public class MapSelectionScreen implements Screen {
         stage = new Stage(new ScreenViewport());
 
         background = new Texture("./menus/MapSelectionBackground.png");
-        bar = new Texture("./menus/bar.png");
 
         skin = new Skin(Gdx.files.internal("./menus/buttons.json"));
         table = new Table();
-        table.setBounds(0,10, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        table.setBounds(0,175, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/2);
         uccMapButton = new TextButton("", skin, "map");
         uccMapButton.addListener(new ClickListener(){
             @Override
@@ -77,7 +76,6 @@ public class MapSelectionScreen implements Screen {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, 900, 900);
-        stage.getBatch().draw(bar, 0, 475);
         stage.getBatch().end();
         stage.draw();
 
